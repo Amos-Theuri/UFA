@@ -5,6 +5,9 @@ import Scarf from "../assets/merch_3.png";
 import Hoodie from "../assets/merch_4.png";
 import Umbrella from "../assets/merch_5.png";
 import Cap from "../assets/merch_6.png";
+import Tshirt from "../assets/merch_7.png";
+import Polo from "../assets/merch_8.png";
+import Shirt from "../assets/merch_9.png";
 
 export default function Merchendise() {
   return (
@@ -47,6 +50,24 @@ export default function Merchendise() {
               <img src={Cap} alt="" className="productImg" />
             </div>
             <p>Caps</p>
+          </div>
+          <div className="product">
+            <div className="productWrapper">
+              <img src={Tshirt} alt="" className="productImg" />
+            </div>
+            <p>T-shirt</p>
+          </div>
+          <div className="product">
+            <div className="productWrapper">
+              <img src={Polo} alt="" className="productImg" />
+            </div>
+            <p>Polo T-shirts</p>
+          </div>
+          <div className="product">
+            <div className="productWrapper">
+              <img src={Shirt} alt="" className="productImg" />
+            </div>
+            <p>Shirts</p>
           </div>
         </div>
       </section>
