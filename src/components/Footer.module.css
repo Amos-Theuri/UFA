@@ -1,0 +1,154 @@
+/* Footer Container */
+.footer {
+  background-color: var(--ink-black);
+  color: var(--alabaster-grey);
+  border-top: 1px solid var(--prussian-blue);
+  margin-top: auto;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 1.5rem 2rem;
+}
+
+/* Top Layout */
+.topSection {
+  display: flex;
+  justify-content: space-between;
+  gap: 3rem;
+  padding-bottom: 3rem;
+  border-bottom: 1px solid var(--prussian-blue);
+}
+
+.brandColumn {
+  max-width: 360px;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  margin-bottom: 1rem;
+  min-width: 30%;
+}
+
+.logoImage {
+  height: 38px;
+  width: auto;
+  object-fit: contain;
+}
+
+.companyName {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--alabaster-grey);
+  letter-spacing: -0.01em;
+}
+
+.brandTagline {
+  color: var(--dusty-denim);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Social Icons */
+.socialGroup {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.socialLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  color: var(--dusty-denim);
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.05);
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.socialLink:hover {
+  color: var(--alabaster-grey);
+  background-color: var(--prussian-blue);
+  transform: translateY(-2px);
+}
+
+.socialIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+  display: block;
+}
+
+/* Navigation Links */
+.linksGrid {
+  display: flex;
+  gap: 4rem;
+  min-width: 60%;
+  justify-content: space-around;
+}
+
+.columnTitle {
+  color: var(--alabaster-grey);
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 1.25rem;
+}
+
+.linkList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.footerLink {
+  color: var(--dusty-denim);
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: color 0.2s ease;
+}
+
+.footerLink:hover {
+  color: var(--alabaster-grey);
+}
+
+/* Bottom / Copyright */
+.bottomSection {
+  padding-top: 2rem;
+  text-align: center;
+}
+
+.copyright {
+  color: var(--dusk-blue);
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .topSection {
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+
+  .linksGrid {
+    flex-wrap: wrap;
+    gap: 2.5rem;
+  }
+
+  .bottomSection {
+    text-align: left;
+  }
+}

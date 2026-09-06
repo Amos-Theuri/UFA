@@ -1,0 +1,183 @@
+/* Header Container */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: var(--primary-grnd);
+  border-bottom: 1px solid var(--accent-pop);
+}
+
+/* Nav Flex Container */
+.navContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0.2rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Brand Link */
+.brand {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--base);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+}
+
+.logoImage {
+  height: 55px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+  background-color: var(--base);
+  border-radius: 50px;
+}
+
+.brandName {
+  color: var(--base);
+}
+
+/* Menu Container (Links + CTA) */
+.menuContainer {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+/* Links List */
+.navList {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navItem {
+  display: flex;
+}
+
+.navLink {
+  color: var(--base);
+  font-size: 1rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.navLink:hover {
+  color: var(--accent-pop);
+}
+
+.activeLink {
+  color: var(--accent-pop);
+  font-weight: 1000;
+}
+
+/* Join Button */
+.joinBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  background-color: var(--accent-pop);
+  border-radius: 10px;
+  text-decoration: none;
+  transition:
+    background-color 0.2s ease,
+    transform 0.1s ease;
+}
+
+.joinBtn:hover {
+  background-color: var(--accent-pop);
+  transform: translateY(-1px); /* Subtle lift effect */
+  box-shadow: 0 4px 12px rgba(170, 59, 255, 0.25);
+}
+
+/* Hamburger Toggle Button (Hidden on Desktop) */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 2rem;
+  height: 2rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.bar {
+  width: 2rem;
+  height: 0.25rem;
+  background-color: #08060d;
+  border-radius: 10px;
+  transition: all 0.3s linear;
+}
+
+/* Mobile Responsive Styles (< 768px) */
+@media (max-width: 768px) {
+  .hamburger {
+    display: flex;
+  }
+
+  .menuContainer {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.5rem;
+    background-color: #ffffff;
+    padding: 1.5rem;
+    border-bottom: 1px solid #e5e4e7;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+
+    /* Hide menu by default on mobile */
+    display: none;
+  }
+
+  /* .logoImage {
+    width: 90%;
+    height: auto;
+  } */
+
+  .menuOpen {
+    display: flex;
+  }
+
+  .navList {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .joinBtn {
+    width: 100%;
+    text-align: center;
+    display: none;
+  }
+
+  /* Hamburger Animation when open */
+  .barOpen:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  .barOpen:nth-child(2) {
+    opacity: 0;
+  }
+
+  .barOpen:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+}

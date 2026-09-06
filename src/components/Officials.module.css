@@ -1,0 +1,124 @@
+/* Container & Wrapper */
+.section {
+  padding: 5rem 1.5rem;
+  background-color: var(--alabaster-grey);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Header Typography */
+.header {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto 3.5rem auto;
+}
+
+.title {
+  font-size: clamp(2rem, 3.5vw, 2.75rem);
+  font-weight: 800;
+  color: var(--text-h);
+  margin-bottom: 0.75rem;
+  line-height: 1.2;
+}
+
+.subtitle {
+  font-size: 1.125rem;
+  color: var(--dusk-blue);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* 3-Column Grid for Desktop */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+/* Member Card */
+.card {
+  background-color: #ffffff;
+  border: 1px solid var(--dusty-denim);
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(13, 27, 42, 0.05);
+  display: flex;
+  flex-direction: column;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 20px -4px rgba(13, 27, 42, 0.12);
+}
+
+/* Image Container */
+.imageWrapper {
+  width: 100%;
+  height: 260px;
+  background-color: var(--prussian-blue);
+  overflow: hidden;
+}
+
+.avatar {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+
+/* Card Body */
+.cardContent {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--ink-black);
+  margin: 0 0 0.25rem 0;
+  line-height: 1.3;
+}
+
+.role {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--dusk-blue);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.875rem;
+}
+
+.bio {
+  font-size: 0.95rem;
+  color: var(--dusk-blue);
+  line-height: 1.5;
+  margin: 0 0 1.5rem 0;
+  flex-grow: 1;
+}
+
+/* Responsive Layout Adjustments */
+@media (max-width: 992px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns on tablets */
+  }
+}
+
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: 1fr; /* 1 column on mobile */
+  }
+
+  .section {
+    padding: 3rem 1rem;
+  }
+}

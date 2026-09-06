@@ -1,0 +1,88 @@
+.member-card {
+  width: 100%;
+  max-width: 320px;
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid #e7e7e7;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.member-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.13);
+}
+
+.member-card__image-wrapper {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: #f2f2f2;
+}
+
+.member-card__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.35s ease;
+}
+
+.member-card:hover .member-card__image {
+  transform: scale(1.05);
+}
+
+.member-card__content {
+  padding: 1.25rem;
+  text-align: center;
+}
+
+.member-card__name {
+  margin: 0;
+  color: #1f2937;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.member-card__role {
+  margin: 0.4rem 0 0;
+  color: #6366f1;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.member-card__bio {
+  margin: 0.85rem 0 0;
+  color: #6b7280;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.member-card__socials {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.member-card__social-link {
+  color: #4b5563;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.member-card__social-link:hover {
+  color: #6366f1;
+}
+
+@media (max-width: 480px) {
+  .member-card {
+    max-width: 100%;
+  }
+}

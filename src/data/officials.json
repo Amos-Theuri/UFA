@@ -1,0 +1,92 @@
+[
+  {
+    "id": 1,
+    "name": "Joshua Omondi",
+    "title": "Chief Executive Officer / National Chairperson",
+    "bio": "Leading strategic vision and organizational growth across all operations.",
+    "image": "/officials/official_1.jpeg",
+    "email": "sarah@yourcompany.com"
+  },
+  {
+    "id": 2,
+    "name": "Subira Ethel",
+    "title": "National Vice Chair 1",
+    "bio": "Principal assistant to the CEO",
+    "image": "/officials/official_5.jpeg",
+    "email": "aisha@yourcompany.com"
+  },
+  {
+    "id": 3,
+    "name": "Dennis Okumu",
+    "title": "Administrative S.G",
+    "bio": "Oversees all administrative operations of the association",
+    "image": "/officials/official_4.jpeg",
+    "email": "marcus@yourcompany.com"
+  },
+  {
+    "id": 4,
+    "name": "Angela Nabwire",
+    "title": "Chief Finance Officer",
+    "bio": "Guiding fiscal policy, budget allocation, and investor relations.",
+    "image": "/officials/official_3.jpeg",
+    "email": "elena@yourcompany.com"
+  },
+
+  {
+    "id": 5,
+    "name": "Samuel Ogutu",
+    "title": "National Youth Leader",
+    "bio": "Handling youth operations",
+    "image": "/officials/official_6.jpeg",
+    "email": "james@yourcompany.com"
+  },
+
+  {
+    "id": 6,
+    "name": "Winfred Shem",
+    "title": "Chief Community Engagement Officer",
+    "bio": "Overseeing Community Programmes and County activities",
+    "image": "/officials/official_2.jpeg",
+    "email": "david@yourcompany.com"
+  },
+  {
+    "id": 7,
+    "name": "Derrick Wanjala",
+    "title": "Director Communications and Advocacy",
+    "bio": "Handles all communication in the organization",
+    "image": "/officials/official_7.jpeg",
+    "email": "david@yourcompany.com"
+  },
+  {
+    "id": 8,
+    "name": "Derrick Ogola",
+    "title": "National Vice Chair 2",
+    "bio": "Coordinate Membership recruitment  and retention strategies",
+    "image": "/officials/official_7.jpeg",
+    "email": "david@yourcompany.com"
+  },
+  {
+    "id": 9,
+    "name": "Marian Magio",
+    "title": "National Woman Representative",
+    "bio": "Lead National Women empowerment programmes",
+    "image": "/officials/official_7.jpeg",
+    "email": "david@yourcompany.com"
+  },
+  {
+    "id": 10,
+    "name": "Tancliff Jones",
+    "title": "Director of Programmes",
+    "bio": "Design and manage national programmes",
+    "image": "/officials/official_7.jpeg",
+    "email": "david@yourcompany.com"
+  },
+  {
+    "id": 11,
+    "name": "Demtilla Otete",
+    "title": "National Organizing secretary",
+    "bio": "Plan and coordinate events conferences and campaigns",
+    "image": "/officials/official_7.jpeg",
+    "email": "david@yourcompany.com"
+  }
+]
