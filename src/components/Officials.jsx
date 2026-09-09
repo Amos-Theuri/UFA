@@ -14,6 +14,17 @@ import official7 from "../assets/official_7.jpg";
 
 // Map JSON paths and IDs to bundled assets
 const assetMap = {
+  1: official1,
+  2: official5,
+  3: official4,
+  4: official3,
+  5: official6,
+  6: official2,
+  7: official7,
+  8: official7,
+  9: official7,
+  10: official7,
+  11: official7,
   "/officials/official_1.jpeg": official1,
   "/officials/official_2.jpeg": official2,
   "/officials/official_3.jpeg": official3,
@@ -21,6 +32,7 @@ const assetMap = {
   "/officials/official_5.jpeg": official5,
   "/officials/official_6.jpeg": official6,
   "/officials/official_7.jpg": official7,
+  "/officials/official_7.jpeg": official7,
   "official_1.jpeg": official1,
   "official_2.jpeg": official2,
   "official_3.jpeg": official3,
@@ -28,17 +40,25 @@ const assetMap = {
   "official_5.jpeg": official5,
   "official_6.jpeg": official6,
   "official_7.jpg": official7,
+  "official_7.jpeg": official7,
 };
 
-function resolveOfficialImage(imagePath) {
-  if (!imagePath) return official1;
-  if (assetMap[imagePath]) return assetMap[imagePath];
-  const filename = imagePath.split("/").pop();
-  if (filename && assetMap[filename]) return assetMap[filename];
-  if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) return imagePath;
-  const base = import.meta.env.BASE_URL || "/";
-  const cleanPath = imagePath.startsWith("/") ? imagePath.slice(1) : imagePath;
-  return `${base}${cleanPath}`;
+function resolveOfficialImage(official) {
+  if (!official) return official1;
+  const imagePath = typeof official === "string" ? official : official.image;
+  const id = typeof official === "object" ? official.id : null;
+
+  if (id && assetMap[id]) return assetMap[id];
+  if (imagePath && assetMap[imagePath]) return assetMap[imagePath];
+  if (imagePath) {
+    const filename = imagePath.split("/").pop();
+    if (filename && assetMap[filename]) return assetMap[filename];
+    if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) return imagePath;
+    const base = import.meta.env.BASE_URL || "/";
+    const cleanPath = imagePath.startsWith("/") ? imagePath.slice(1) : imagePath;
+    return `${base}${cleanPath}`;
+  }
+  return official1;
 }
 
 export default function Officials() {
@@ -60,7 +80,7 @@ export default function Officials() {
 
         <div className={styles.grid}>
           {officialsData.map((official) => {
-            const imgSrc = resolveOfficialImage(official.image);
+            const imgSrc = resolveOfficialImage(official);
             return (
               <article key={official.id} className={styles.card}>
                 <div className={styles.imageWrapper}>
