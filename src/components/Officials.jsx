@@ -11,6 +11,7 @@ import official4 from "../assets/official_4.jpeg";
 import official5 from "../assets/official_5.jpeg";
 import official6 from "../assets/official_6.jpeg";
 import official7 from "../assets/official_7.jpg";
+import official8 from "../assets/official_8.jpeg";
 
 // Map JSON paths and IDs to bundled assets
 const assetMap = {
@@ -21,7 +22,7 @@ const assetMap = {
   5: official6,
   6: official2,
   7: official7,
-  8: official7,
+  8: official8,
   9: official7,
   10: official7,
   11: official7,
@@ -53,9 +54,12 @@ function resolveOfficialImage(official) {
   if (imagePath) {
     const filename = imagePath.split("/").pop();
     if (filename && assetMap[filename]) return assetMap[filename];
-    if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) return imagePath;
+    if (imagePath.startsWith("http://") || imagePath.startsWith("https://"))
+      return imagePath;
     const base = import.meta.env.BASE_URL || "/";
-    const cleanPath = imagePath.startsWith("/") ? imagePath.slice(1) : imagePath;
+    const cleanPath = imagePath.startsWith("/")
+      ? imagePath.slice(1)
+      : imagePath;
     return `${base}${cleanPath}`;
   }
   return official1;
@@ -74,7 +78,8 @@ export default function Officials() {
             Meet Our Leadership Team
           </h2>
           <p className={styles.subtitle}>
-            Dedicated visionary officials steering UFA’s national mission, county chapters, and youth empowerment initiatives across Kenya.
+            Dedicated visionary officials steering UFA’s national mission,
+            county chapters, and youth empowerment initiatives across Kenya.
           </p>
         </div>
 
