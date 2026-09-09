@@ -23,7 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 
-SUPABASE_INTEGRATION_GUIDE.md
-LINUX_SETUP_GUIDE.md
-GITHUB_PAGES_GUIDE.md
-COMMANDS.md
+# Ignore all markdown files except README.md
+*.md
+!README.md
