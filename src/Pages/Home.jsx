@@ -26,8 +26,8 @@ export default function Home() {
               <span>Empowering Kenya's Next Generation</span>
             </div>
             <h1>
-              <span className="gradient-text">Together For A </span> Brighter
-              Future
+              <span className="gradient-text">Together For A </span>
+              <br /> Brighter Future
             </h1>
             <p>
               We foster youth networking, mentorship, career development, and
