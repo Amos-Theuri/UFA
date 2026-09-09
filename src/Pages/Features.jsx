@@ -7,55 +7,57 @@ import {
   Compass, 
   CheckCircle2, 
   Sparkles, 
-  ArrowRight 
+  Calendar 
 } from "lucide-react";
 import featImg from "../assets/featImg.png";
+import MentorshipProgramsSection from "../components/MentorshipProgramsSection";
+import PastEventsSection from "../components/PastEventsSection";
 import "../styles/style.css";
 
 export default function Features() {
   const serviceAreas = [
     {
       id: "prof-dev",
-      title: "Professional Development",
+      title: "Professional & Skills Development",
       icon: GraduationCap,
-      description: "Continuous learning through accredited workshops, practical skill-building seminars, and industry-recognized certification tracks.",
+      description: "Hands-on workshops, practical skill-building seminars, and job readiness training designed to transition youth seamlessly into the workplace.",
       features: [
-        "Monthly Hands-on Skills Workshops",
-        "UFA Leadership & Career Tracks",
-        "Executive Leadership & Governance Training"
+        "Monthly Hands-on Skills Workshops & Masterclasses",
+        "UFA Leadership & Career Readiness Tracks",
+        "Executive Leadership & Governance Coaching"
       ]
     },
     {
       id: "networking",
-      title: "Networking & Events",
+      title: "Youth Networking & County Chapters",
       icon: Users2,
-      description: "Connect with peers, seasoned industry veterans, and institutional partners through our curated calendar of regional and national events.",
+      description: "Connecting young people with ambitious peers, seasoned industry veterans, and civic institutions across Kenya's 47 counties.",
       features: [
-        "Annual National UFA Symposium",
-        "Quarterly Executive & Mentorship Mixers",
-        "County Chapter Gatherings & Summits"
+        "County Chapter Gatherings & Regional Summits",
+        "Cross-Disciplinary Executive & Mentorship Mixers",
+        "Annual National UFA Youth Empowerment Forum"
       ]
     },
     {
       id: "research",
-      title: "Industry & Youth Research",
+      title: "Mental Health & Well-being Talks",
       icon: BarChart3,
-      description: "Access authoritative data, labor market trends, and evidence-based reports to stay ahead in a rapidly evolving economic landscape.",
+      description: "Creating open, stigma-free platforms for mental health awareness, emotional resilience, psychological counseling, and mindset transformation.",
       features: [
-        "UFA Quarterly Youth Development Journal",
-        "Annual Kenyan Youth Employment Reports",
-        "Open Data & Research Library Access"
+        "Regular Virtual Talks with Certified Psychologists",
+        "Safe Peer-to-Peer Support & Wellness Circles",
+        "Mindset Reframing & Burnout Prevention Clinics"
       ]
     },
     {
       id: "advocacy",
-      title: "Career & Civic Advocacy",
+      title: "Community Action & Civic Engagement",
       icon: Compass,
-      description: "Dedicated resources and direct support to advance your career trajectory, discover new job avenues, and champion youth welfare.",
+      description: "Empowering youth to identify pressing community needs, lead volunteer initiatives, and spearhead environmental and social interventions.",
       features: [
-        "Exclusive Member Opportunity & Job Board",
-        "1-on-1 Personalized Mentorship Matchups",
-        "Resume, CV & Portfolio Review Clinics"
+        "Grassroots Community Support & Resource Mobilisation",
+        "Environmental Conservation & Tree Planting Projects",
+        "Civic Leadership, Women's Governance & Advocacy Forums"
       ]
     }
   ];
@@ -68,19 +70,24 @@ export default function Features() {
           <div className="text-content">
             <div className="hero-badge">
               <Sparkles size={16} />
-              <span>Pillars of Impact</span>
+              <span>Programmes, Mentorship & Impact</span>
             </div>
             <h1>
-              Empowering Your <span className="gradient-text">Professional Excellence</span>
+              Comprehensive Pathways For <br />
+              <span className="gradient-text">Youth & Community Growth</span>
             </h1>
             <p>
-              Explore our core pillars meticulously designed to support every phase of your personal, professional, and community leadership journey.
+              Explore our structured mentorship programmes, documented previous talks and events, practical career accelerators, and grassroots community initiatives across Kenya.
             </p>
             <div className="hero-actions">
-              <Link to="/Contact" className="btn-primary">
-                <span>Get Started With UFA</span>
-                <ArrowRight size={18} />
-              </Link>
+              <a href="#mentorship-programs" className="btn-primary">
+                <Compass size={18} />
+                <span>Mentorship Programmes</span>
+              </a>
+              <a href="#previous-events" className="btn-secondary">
+                <Calendar size={18} />
+                <span>Previous Events & Talks</span>
+              </a>
             </div>
           </div>
 
@@ -92,13 +99,19 @@ export default function Features() {
         </div>
       </section>
 
-      {/* Services Section */}
-      <section id="services-section">
+      {/* Mentorship Programmes Section (Full Showcase) */}
+      <MentorshipProgramsSection isPreview={false} />
+
+      {/* Previous Events & Virtual Talks Section (Full Showcase) */}
+      <PastEventsSection />
+
+      {/* Core Service Areas Section */}
+      <section id="service-areas" className="services-wrapper" style={{ padding: "5.5rem 1.5rem", backgroundColor: "var(--base)" }}>
         <div className="section-head">
-          <div className="badge-pill">Service Areas</div>
-          <h2 className="section-title">Primary Pillars of Growth</h2>
+          <div className="badge-pill">Foundational Framework</div>
+          <h2 className="section-title">Core Service Pillars</h2>
           <p className="section-subtitle">
-            Comprehensive programs and initiatives structured to elevate youth readiness and foster long-term community transformation.
+            Structured initiatives designed to elevate youth readiness and foster long-term community transformation.
           </p>
         </div>
 
@@ -134,13 +147,13 @@ export default function Features() {
       <section className="cta-banner-section">
         <div className="cta-banner-card">
           <div className="cta-content">
-            <h2>Ready to Unlock These Opportunities?</h2>
+            <h2>Ready to Join a Mentorship Track or Event?</h2>
             <p>
-              Join UFA today to participate in our skill tracks, exclusive networking summits, and personalized mentorship programs.
+              Connect with UFA today to enroll in our upcoming cohort, propose a speaking session, or partner on a community project in your county.
             </p>
             <Link to="/Contact" className="btn-primary">
               <Sparkles size={18} />
-              <span>Join UFA Now</span>
+              <span>Get Started Today</span>
             </Link>
           </div>
         </div>

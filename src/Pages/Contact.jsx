@@ -231,10 +231,13 @@ export default function Contact() {
                       className="form-input"
                     >
                       <option value="general">General Inquiry</option>
-                      <option value="join">Join UFA / Membership</option>
-                      <option value="partner">Partnership & Sponsorship</option>
-                      <option value="merchandise">Merchandise & Orders</option>
+                      <option value="mentee">Apply for Mentorship (Mentee)</option>
+                      <option value="mentor">Register as a Mentor / Guide</option>
+                      <option value="join">Join UFA / General Membership</option>
+                      <option value="partner">Partnership, Sponsorship & Events</option>
+                      <option value="mental-health">Mental Health & Wellness Initiative</option>
                       <option value="chapter">County Chapter Information</option>
+                      <option value="merchandise">Merchandise & Orders</option>
                     </select>
                   </div>
                 </div>

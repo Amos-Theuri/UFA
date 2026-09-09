@@ -1,0 +1,188 @@
+/* src/components/ImpactPathwaySection.module.css */
+.section {
+  padding: 5.5rem 1.5rem;
+  background-color: var(--base);
+}
+
+.container {
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.header {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto 3.5rem auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.35rem 0.95rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #0c1e30;
+  background-color: var(--secondary);
+  border: 1px solid rgba(0, 229, 193, 0.4);
+  border-radius: var(--radius-full);
+  margin-bottom: 1rem;
+}
+
+.title {
+  font-size: clamp(2rem, 3.5vw, 2.75rem);
+  color: var(--text-h);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 0 0 1rem 0;
+}
+
+.subtitle {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.timeline {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1.25rem;
+  position: relative;
+  margin-bottom: 2.5rem;
+}
+
+.stepCard {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem 1.15rem;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-normal);
+  position: relative;
+}
+
+.stepCard:hover {
+  transform: translateY(-6px);
+  border-color: var(--accent-pop);
+  box-shadow: var(--shadow-md);
+}
+
+.stepIndicator {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.stepNumber {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #0c1e30;
+  background-color: var(--accent-pop);
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-full);
+  letter-spacing: 0.05em;
+}
+
+.iconCircle {
+  width: 46px;
+  height: 46px;
+  border-radius: var(--radius-md);
+  background-color: var(--secondary);
+  color: #0c1e30;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  border: 1px solid rgba(0, 229, 193, 0.35);
+  transition: var(--transition-fast);
+}
+
+.stepCard:hover .iconCircle {
+  background-color: #0c1e30;
+  color: var(--accent-pop);
+}
+
+.stepName {
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent-pop);
+  margin-bottom: 0.35rem;
+}
+
+.stepTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-h);
+  margin: 0 0 0.5rem 0;
+  line-height: 1.3;
+}
+
+.stepDesc {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.pathwaySummary {
+  background: #ffffff;
+  border: 1px dashed rgba(0, 229, 193, 0.6);
+  border-radius: var(--radius-full);
+  padding: 0.9rem 1.5rem;
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+  box-shadow: var(--shadow-sm);
+}
+
+.pathwaySummary p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.inlineArrow {
+  color: var(--accent-pop);
+}
+
+.finalGoal {
+  color: #0c1e30;
+  background-color: var(--accent-pop);
+  padding: 0.2rem 0.75rem;
+  border-radius: var(--radius-full);
+}
+
+@media (max-width: 1024px) {
+  .timeline {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .section {
+    padding: 3.5rem 1.25rem;
+  }
+
+  .timeline {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .pathwaySummary {
+    border-radius: var(--radius-md);
+  }
+}

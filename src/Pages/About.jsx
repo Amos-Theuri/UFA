@@ -2,14 +2,15 @@
 import { Link } from "react-router-dom";
 import { 
   Sparkles, 
-  ArrowRight, 
-  Shield, 
-  Lightbulb, 
-  Users2 
+  ArrowRight 
 } from "lucide-react";
 import abtHeroImg from "../assets/abtHero.png";
 import aboutImage from "../assets/abt.png";
 import Officials from "../components/Officials";
+import ImpactPathwaySection from "../components/ImpactPathwaySection";
+import WhoCanParticipateSection from "../components/WhoCanParticipateSection";
+import PropositionBanner from "../components/PropositionBanner";
+import { ufaPillars } from "../data/ufaCore";
 import "../styles/style.css";
 
 export default function About() {
@@ -21,25 +22,29 @@ export default function About() {
           <div className="text-content">
             <div className="hero-badge">
               <Sparkles size={16} />
-              <span>Our Vision & Legacy</span>
+              <span>Who We Are & What Drives Us</span>
             </div>
             <h1>
-              Empowering Youth to <span className="gradient-text">Shape Kenya's Future</span>
+              Youth Development Meets <br />
+              <span className="gradient-text">Community Impact</span>
             </h1>
             <p>
-              The Unique Focus Association connects visionary youth, fostering innovation, leadership, and professional excellence across industries and grassroots communities.
+              Unique Focus Association (UFA) is a youth development and community-impact organisation that connects young people to networks, mentorship, skills, career opportunities, leadership experiences, and community initiatives across Kenya.
             </p>
             <div className="hero-actions">
               <Link to="/Contact" className="btn-primary">
-                <span>Join Our Network</span>
+                <span>Join Our Movement</span>
                 <ArrowRight size={18} />
+              </Link>
+              <Link to="/Features" className="btn-secondary">
+                <span>Our Programmes</span>
               </Link>
             </div>
           </div>
 
           <div className="image-content">
             <div className="image-frame">
-              <img src={abtHeroImg} alt="UFA association leaders and members" width="715" height="477" />
+              <img src={abtHeroImg} alt="UFA leaders and youth members" width="715" height="477" />
             </div>
           </div>
         </div>
@@ -50,20 +55,20 @@ export default function About() {
         <div className="story-grid">
           <div className="story-img-col">
             <div className="story-img-card">
-              <img src={aboutImage} alt="Unique Focus Association Journey" />
+              <img src={aboutImage} alt="Unique Focus Association Journey and Impact" />
             </div>
           </div>
           <div className="story-text-col">
-            <div className="badge-pill">Our Journey</div>
-            <h2>A Legacy of Purpose & Youth Leadership</h2>
+            <div className="badge-pill">Our Journey & Mission</div>
+            <h2>Fostering Personal Growth, Unlocking Shared Impact</h2>
             <p>
-              Unique Focus Association of Kenya (UFA) was founded in 2025 with a bold mission to connect, empower, and unite young people across Kenya. What began as an ambitious youth-focused initiative has rapidly grown into a vibrant nationwide movement bringing together emerging leaders from diverse counties, disciplines, and backgrounds.
+              Unique Focus Association (UFA) was founded with a bold mission: to connect, mentor, and empower young people across Kenya to take active ownership of their professional futures and community well-being.
             </p>
             <p>
-              Since our establishment, UFA has connected youth from Busia, Siaya, Kisumu, Homa Bay, Kisii, Nairobi, Murang’a, Kiambu, Meru, Embu, Kakamega, and Nakuru counties, among many others. Through hands-on mentorship, skills training, and civic engagement, we provide a solid launchpad for youth potential.
+              We believe youth development should not end with personal success. Young people who gain knowledge, skills, networks, and opportunities must also be equipped and empowered to give back and contribute to their communities.
             </p>
             <p>
-              Our journey has only just begun. We are actively expanding to all 47 counties of Kenya, creating a united national network of purpose-driven young changemakers.
+              Today, UFA is connecting emerging leaders from Siaya, Busia, Kisumu, Homa Bay, Kisii, Nairobi, Murang’a, Kiambu, Meru, Embu, Kakamega, Machakos, and Nakuru counties, while systematically expanding to all 47 counties of Kenya. As we grow, we continuously document our activities, partnerships, beneficiaries, and outcomes to demonstrate measurable impact.
             </p>
           </div>
         </div>
@@ -74,68 +79,61 @@ export default function About() {
         <div className="stats-container">
           <div className="stat-item">
             <div className="stat-number">1,000+</div>
-            <p className="stat-label">Active Members</p>
+            <p className="stat-label">Active Youth Members</p>
           </div>
           <div className="stat-item">
-            <div className="stat-number">1+</div>
-            <p className="stat-label">Years of Excellence</p>
+            <div className="stat-number">47</div>
+            <p className="stat-label">County Target Footprint</p>
           </div>
           <div className="stat-item">
-            <div className="stat-number">10+</div>
-            <p className="stat-label">Annual Events & Summits</p>
+            <div className="stat-number">15+</div>
+            <p className="stat-label">Virtual Talks & Summits</p>
           </div>
           <div className="stat-item">
-            <div className="stat-number">12+</div>
-            <p className="stat-label">County Chapters</p>
+            <div className="stat-number">5</div>
+            <p className="stat-label">Core Mentorship Tracks</p>
           </div>
         </div>
       </section>
 
-      {/* Leadership Team Component */}
-      <Officials />
+      {/* Proposition Banner */}
+      <PropositionBanner />
 
-      {/* Core Principles Section */}
-      <section id="values-section">
+      {/* What We Do: The 9 Core Pillars */}
+      <section className="section-wrapper" id="what-we-do" style={{ backgroundColor: "#ffffff" }}>
         <div className="section-head">
-          <div className="badge-pill">What Drives Us</div>
-          <h2 className="section-title">Our Core Values</h2>
+          <div className="badge-pill">What We Do</div>
+          <h2 className="section-title">The Nine Pillars of UFA</h2>
           <p className="section-subtitle">
-            The ethical pillars that guide every decision, program, and partnership within UFA.
+            Our comprehensive scope of action designed to guide, empower, and support Kenya&rsquo;s next generation of changemakers.
           </p>
         </div>
 
-        <div className="values-grid">
-          <div className="value-card">
-            <div className="value-icon-box">
-              <Shield size={28} />
-            </div>
-            <h3>Integrity</h3>
-            <p>
-              We uphold the highest ethical standards in all our endeavors, ensuring transparency, accountability, and trust form the bedrock of our association.
-            </p>
-          </div>
-
-          <div className="value-card">
-            <div className="value-icon-box">
-              <Lightbulb size={28} />
-            </div>
-            <h3>Innovation</h3>
-            <p>
-              We embrace forward-thinking solutions and creative thinking, constantly seeking new ways to add value and drive progress for our members.
-            </p>
-          </div>
-
-          <div className="value-card">
-            <div className="value-icon-box">
-              <Users2 size={28} />
-            </div>
-            <h3>Community</h3>
-            <p>
-              We believe in the transformative power of collective wisdom. Fostering a supportive, inclusive, and collaborative environment is essential to mutual success.
-            </p>
-          </div>
+        <div className="nine-pillars-grid">
+          {ufaPillars.map((pillar) => {
+            const Icon = pillar.icon;
+            return (
+              <div key={pillar.id} className="pillar-card">
+                <div className="pillar-icon-box">
+                  <Icon size={24} />
+                </div>
+                <h3>{pillar.title}</h3>
+                <span className="pillar-tagline">{pillar.tagline}</span>
+                <p>{pillar.description}</p>
+              </div>
+            );
+          })}
         </div>
       </section>
+
+      {/* The Impact Pathway */}
+      <ImpactPathwaySection />
+
+      {/* Who Can Participate */}
+      <WhoCanParticipateSection />
+
+      {/* Leadership Team Component */}
+      <Officials />
 
       {/* Call to Action Banner */}
       <section className="cta-banner-section">
@@ -143,7 +141,7 @@ export default function About() {
           <div className="cta-content">
             <h2>Ready to Be Part of Our Movement?</h2>
             <p>
-              Join the Unique Focus Association today and connect with an expansive national network of young leaders and mentors.
+              Join the Unique Focus Association today and connect with an expansive national network of purpose-driven young leaders, mentors, and community builders.
             </p>
             <Link to="/Contact" className="btn-primary">
               <Sparkles size={18} />

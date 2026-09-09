@@ -30,7 +30,7 @@ export default function Footer() {
               </div>
             </Link>
             <p className={styles.brandTagline}>
-              Empowering Kenyan youth through nationwide networking, leadership development, career readiness, environmental conservation, and strategic innovation.
+              Connecting Kenyan youth to networks, mentorship, skills, career opportunities, leadership experiences, and community initiatives across all 47 counties.
             </p>
 
             {/* Social Media Links */}
@@ -44,7 +44,7 @@ export default function Footer() {
               >
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
-                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                  <path d="M16 13.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
                   <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
                 </svg>
               </a>
@@ -93,7 +93,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link to="/Features" className={styles.footerLink}>
-                  <span>Features & Programs</span>
+                  <span>Programs & Events</span>
                   <ArrowUpRight size={14} className={styles.arrowIcon} />
                 </Link>
               </li>
@@ -116,11 +116,11 @@ export default function Footer() {
           <div className={styles.linkColumn}>
             <h4 className={styles.columnTitle}>Our Focus</h4>
             <ul className={styles.linkList}>
-              <li className={styles.focusItem}>Youth Mentorship & Networking</li>
+              <li className={styles.focusItem}>Youth Networking & Mentorship</li>
               <li className={styles.focusItem}>Career & Job Readiness</li>
-              <li className={styles.focusItem}>Health & Social Well-being</li>
-              <li className={styles.focusItem}>Environmental Action</li>
-              <li className={styles.focusItem}>Strategic Innovation</li>
+              <li className={styles.focusItem}>Mental Health Awareness</li>
+              <li className={styles.focusItem}>Community Empowerment & Support</li>
+              <li className={styles.focusItem}>Environmental & Social Action</li>
             </ul>
           </div>
 
