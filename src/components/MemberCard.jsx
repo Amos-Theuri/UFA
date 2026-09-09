@@ -14,13 +14,13 @@ export default function MemberCard({
           className="member-card__image"
           src={image}
           alt={`${name} - ${role}`}
+          loading="lazy"
         />
       </div>
 
       <div className="member-card__content">
+        <span className="member-card__role">{role}</span>
         <h3 className="member-card__name">{name}</h3>
-
-        <p className="member-card__role">{role}</p>
 
         {bio && <p className="member-card__bio">{bio}</p>}
 

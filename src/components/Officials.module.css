@@ -1,124 +1,209 @@
-/* Container & Wrapper */
+/* ==========================================================================
+   Officials Leadership Component Styles
+   ========================================================================== */
+
 .section {
-  padding: 5rem 1.5rem;
-  background-color: var(--alabaster-grey);
+  padding: 5.5rem 1.5rem;
+  background-color: var(--secondary-s);
+  position: relative;
 }
 
 .container {
-  max-width: 1200px;
+  max-width: 1240px;
   margin: 0 auto;
 }
 
 /* Header Typography */
 .header {
   text-align: center;
-  max-width: 600px;
-  margin: 0 auto 3.5rem auto;
+  max-width: 680px;
+  margin: 0 auto 4rem auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.95rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #0c1e30;
+  background-color: var(--secondary);
+  border: 1px solid rgba(0, 229, 193, 0.4);
+  border-radius: var(--radius-full);
+  margin-bottom: 1rem;
 }
 
 .title {
-  font-size: clamp(2rem, 3.5vw, 2.75rem);
+  font-size: clamp(2rem, 4vw, 2.75rem);
   font-weight: 800;
   color: var(--text-h);
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.85rem;
   line-height: 1.2;
 }
 
 .subtitle {
-  font-size: 1.125rem;
-  color: var(--dusk-blue);
+  font-size: 1.05rem;
+  color: var(--text-secondary);
   margin: 0;
   line-height: 1.6;
 }
 
-/* 3-Column Grid for Desktop */
+/* Responsive Grid */
 .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
+  gap: 2.25rem;
 }
 
 /* Member Card */
 .card {
   background-color: #ffffff;
-  border: 1px solid var(--dusty-denim);
-  border-radius: 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
   overflow: hidden;
-  box-shadow: 0 4px 6px -1px rgba(13, 27, 42, 0.05);
+  box-shadow: var(--shadow);
   display: flex;
   flex-direction: column;
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
+  transition: var(--transition-normal);
+  position: relative;
 }
 
 .card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 20px -4px rgba(13, 27, 42, 0.12);
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+  border-color: rgba(0, 229, 193, 0.5);
 }
 
 /* Image Container */
 .imageWrapper {
   width: 100%;
-  height: 260px;
-  background-color: var(--prussian-blue);
+  height: 280px;
+  background: linear-gradient(135deg, #0c1e30 0%, #155e75 100%);
   overflow: hidden;
+  position: relative;
 }
 
 .avatar {
   width: 100%;
-  height: auto;
+  height: 100%;
   object-fit: cover;
   object-position: center top;
   display: block;
+  transition: transform 0.4s ease;
+}
+
+.card:hover .avatar {
+  transform: scale(1.05);
+}
+
+.imageOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(12, 30, 48, 0.6) 0%, transparent 60%);
+  pointer-events: none;
 }
 
 /* Card Body */
 .cardContent {
-  padding: 1.5rem;
+  padding: 1.75rem 1.5rem;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  text-align: left;
+}
+
+.roleBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.65rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #0c1e30;
+  background-color: var(--secondary);
+  border-radius: var(--radius-full);
+  margin-bottom: 0.85rem;
+  align-self: flex-start;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border: 1px solid rgba(0, 229, 193, 0.3);
+}
+
+.roleIcon {
+  color: #114b5f;
+  flex-shrink: 0;
 }
 
 .name {
   font-size: 1.25rem;
   font-weight: 700;
-  color: var(--ink-black);
-  margin: 0 0 0.25rem 0;
+  color: var(--text-h);
+  margin: 0 0 0.5rem 0;
   line-height: 1.3;
 }
 
-.role {
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--dusk-blue);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 0.875rem;
-}
-
 .bio {
-  font-size: 0.95rem;
-  color: var(--dusk-blue);
-  line-height: 1.5;
-  margin: 0 0 1.5rem 0;
+  font-size: 0.925rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 0;
   flex-grow: 1;
 }
 
 /* Responsive Layout Adjustments */
-@media (max-width: 992px) {
+@media (max-width: 1024px) {
   .grid {
-    grid-template-columns: repeat(2, 1fr); /* 2 columns on tablets */
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.75rem;
   }
 }
 
 @media (max-width: 640px) {
-  .grid {
-    grid-template-columns: 1fr; /* 1 column on mobile */
+  .section {
+    padding: 3.5rem 1.25rem;
   }
 
+  .header {
+    margin-bottom: 2.5rem;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .imageWrapper {
+    height: 240px;
+  }
+
+  .cardContent {
+    padding: 1.35rem 1.15rem;
+  }
+
+  .name {
+    font-size: 1.15rem;
+  }
+
+  .bio {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 400px) {
   .section {
     padding: 3rem 1rem;
+  }
+
+  .imageWrapper {
+    height: 220px;
+  }
+
+  .roleBadge {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.55rem;
   }
 }

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import Home from "./Pages/Home";
 import About from "./Pages/About";
@@ -9,11 +9,25 @@ import Footer from "./components/Footer";
 import Merchendise from "./Pages/Merchendise";
 import "./App.css";
 
-function App() {
-  const [count, setCount] = useState(0);
+// Scroll to top automatically on route changes
+function ScrollToTop() {
+  const { pathname } = useLocation();
 
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "instant"
+    });
+  }, [pathname]);
+
+  return null;
+}
+
+function App() {
   return (
     <>
+      <ScrollToTop />
       <Navbar />
       <main>
         <Routes>

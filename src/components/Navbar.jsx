@@ -1,29 +1,95 @@
 // src/components/Navbar.jsx
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { Menu, X, ArrowRight, Sparkles } from "lucide-react";
 import styles from "./Navbar.module.css";
 import logoImg from "../assets/logo.png";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
 
   const navLinks = [
     { name: "Home", path: "/" },
     { name: "About", path: "/About" },
     { name: "Features", path: "/Features" },
-    { name: "Contact", path: "/Contact" },
     { name: "Merchandise", path: "/Merchendise" },
+    { name: "Contact", path: "/Contact" },
   ];
 
+  // Scroll state effect
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Lock body scroll and handle Escape key when mobile menu is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+      const handleKeyDown = (e) => {
+        if (e.key === "Escape") {
+          setIsOpen(false);
+        }
+      };
+      window.addEventListener("keydown", handleKeyDown);
+      return () => {
+        document.body.style.overflow = "";
+        window.removeEventListener("keydown", handleKeyDown);
+      };
+    } else {
+      document.body.style.overflow = "";
+    }
+  }, [isOpen]);
+
   return (
-    <header className={styles.header}>
+    <header className={`${styles.header} ${isScrolled ? styles.scrolled : ""}`}>
       <nav className={styles.navContainer} aria-label="Main Navigation">
         {/* Brand / Logo */}
-        <Link to="/" className={styles.brand}>
-          <img src={logoImg} alt="UFA logo" className={styles.logoImage} />
-          <span className={styles.brandName}>Unique Focus Association</span>
+        <Link 
+          to="/" 
+          className={styles.brand} 
+          aria-label="Unique Focus Association Homepage"
+          onClick={() => setIsOpen(false)}
+        >
+          <div className={styles.logoWrapper}>
+            <img src={logoImg} alt="UFA Logo" className={styles.logoImage} />
+          </div>
+          <div className={styles.brandTextGroup}>
+            <span className={styles.brandAcronym}>UFA</span>
+            <span className={styles.brandName}>Unique Focus Association</span>
+          </div>
         </Link>
+
+        {/* Desktop Links Container */}
+        <div className={styles.desktopMenu}>
+          <ul className={styles.navList}>
+            {navLinks.map((link) => {
+              const isActive = location.pathname.toLowerCase() === link.path.toLowerCase();
+              return (
+                <li key={link.path} className={styles.navItem}>
+                  <Link
+                    to={link.path}
+                    className={`${styles.navLink} ${isActive ? styles.activeLink : ""}`}
+                  >
+                    {link.name}
+                    {isActive && <span className={styles.activeIndicator} />}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+
+          {/* Desktop Join CTA Button */}
+          <Link to="/Contact" className={styles.joinBtn}>
+            <span>Join UFA</span>
+            <ArrowRight size={16} className={styles.btnIcon} />
+          </Link>
+        </div>
 
         {/* Mobile Hamburger Toggle Button */}
         <button
@@ -31,43 +97,45 @@ export default function Navbar() {
           type="button"
           onClick={() => setIsOpen(!isOpen)}
           aria-expanded={isOpen}
-          aria-label="Toggle navigation"
+          aria-label={isOpen ? "Close menu" : "Open menu"}
         >
-          <span
-            className={`${styles.bar} ${isOpen ? styles.barOpen : ""}`}
-          ></span>
-          <span
-            className={`${styles.bar} ${isOpen ? styles.barOpen : ""}`}
-          ></span>
-          <span
-            className={`${styles.bar} ${isOpen ? styles.barOpen : ""}`}
-          ></span>
+          {isOpen ? <X size={26} color="#00e5c1" /> : <Menu size={26} color="#ffffff" />}
         </button>
 
-        {/* Links & CTA Container */}
+        {/* Mobile Menu Drawer */}
         <div
-          className={`${styles.menuContainer} ${isOpen ? styles.menuOpen : ""}`}
+          className={`${styles.mobileDrawer} ${isOpen ? styles.drawerOpen : ""}`}
+          aria-hidden={!isOpen}
         >
-          <ul className={styles.navList}>
-            {navLinks.map((link) => (
-              <li key={link.path} className={styles.navItem}>
-                <Link
-                  to={link.path}
-                  className={`${styles.navLink} ${
-                    location.pathname === link.path ? styles.activeLink : ""
-                  }`}
-                  onClick={() => setIsOpen(false)} // Close menu on mobile after selection
-                >
-                  {link.name}
-                </Link>
-              </li>
-            ))}
+          <ul className={styles.mobileNavList}>
+            {navLinks.map((link) => {
+              const isActive = location.pathname.toLowerCase() === link.path.toLowerCase();
+              return (
+                <li key={link.path} className={styles.mobileNavItem}>
+                  <Link
+                    to={link.path}
+                    className={`${styles.mobileNavLink} ${isActive ? styles.mobileActiveLink : ""}`}
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <span>{link.name}</span>
+                    <ArrowRight size={18} className={styles.mobileLinkArrow} />
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
+
+          <div className={styles.mobileCtaWrapper}>
+            <Link
+              to="/Contact"
+              className={styles.mobileJoinBtn}
+              onClick={() => setIsOpen(false)}
+            >
+              <Sparkles size={18} />
+              <span>Join UFA Today</span>
+            </Link>
+          </div>
         </div>
-        {/* Join CTA Button */}
-        <a href="#" className={styles.joinBtn}>
-          Join UFA
-        </a>
       </nav>
     </header>
   );
