@@ -1,13 +1,13 @@
 // src/Pages/Home.jsx
 import { Link } from "react-router-dom";
-import { 
-  Users, 
-  TrendingUp, 
-  Lightbulb, 
-  ArrowRight, 
-  Sparkles, 
-  CheckCircle2, 
-  ExternalLink 
+import {
+  Users,
+  TrendingUp,
+  Lightbulb,
+  ArrowRight,
+  Sparkles,
+  CheckCircle2,
+  ExternalLink,
 } from "lucide-react";
 import heroImg from "../assets/hero.png";
 import logoImg from "../assets/logo.png";
@@ -26,12 +26,13 @@ export default function Home() {
               <span>Empowering Kenya's Next Generation</span>
             </div>
             <h1>
-              Unique Focus <span className="gradient-text">Association</span>
+              Together for a
+              <span className="gradient-text">Brighter Future</span>
             </h1>
             <p>
-              We foster youth networking, mentorship, career development, and job
-              readiness while championing health awareness, social well-being, and
-              environmental conservation across Kenya.
+              We foster youth networking, mentorship, career development, and
+              job readiness while championing health awareness, social
+              well-being, and environmental conservation across Kenya.
             </p>
             <div className="hero-actions">
               <Link to="/Contact" className="btn-primary">
@@ -46,7 +47,12 @@ export default function Home() {
 
           <div className="image-content">
             <div className="image-frame">
-              <img src={heroImg} alt="UFA youth network members" width="715" height="477" />
+              <img
+                src={heroImg}
+                alt="UFA youth network members"
+                width="715"
+                height="477"
+              />
             </div>
           </div>
         </div>
@@ -64,7 +70,10 @@ export default function Home() {
             <div className="badge-pill">Our Vision & Purpose</div>
             <h2>Building a United Movement of Empowered Youth</h2>
             <p>
-              Unique Focus Association of Kenya (UFA) is a dynamic organization committed to empowering young people and communities through leadership development, professional mentorship, practical skills training, and sustainable community initiatives.
+              Unique Focus Association of Kenya (UFA) is a dynamic organization
+              committed to empowering young people and communities through
+              leadership development, professional mentorship, practical skills
+              training, and sustainable community initiatives.
             </p>
             <div className="vision-highlights">
               <div className="vision-point">
@@ -98,7 +107,8 @@ export default function Home() {
           <div className="badge-pill">Foundational Pillars</div>
           <h2 className="section-title">Our Guiding Principles</h2>
           <p className="section-subtitle">
-            The foundation of our association’s commitment to excellence, integrity, and impactful transformation.
+            The foundation of our association’s commitment to excellence,
+            integrity, and impactful transformation.
           </p>
         </div>
 
@@ -109,7 +119,9 @@ export default function Home() {
             </div>
             <h3>Youth Networking & Mentorship</h3>
             <p>
-              Networking and meaningful interaction are at the core of our mission. We are building a robust national network of high-value members and seasoned mentors to achieve milestone success.
+              Networking and meaningful interaction are at the core of our
+              mission. We are building a robust national network of high-value
+              members and seasoned mentors to achieve milestone success.
             </p>
           </div>
 
@@ -119,7 +131,9 @@ export default function Home() {
             </div>
             <h3>Professional Growth</h3>
             <p>
-              Targeted mentorship is a key pillar in our association and serves as the driving factor for career advancement, leadership skills, and economic empowerment for our members.
+              Targeted mentorship is a key pillar in our association and serves
+              as the driving factor for career advancement, leadership skills,
+              and economic empowerment for our members.
             </p>
           </div>
 
@@ -129,7 +143,9 @@ export default function Home() {
             </div>
             <h3>Strategic Innovation</h3>
             <p>
-              We aim to bring monumental positive change to our communities by promoting creative, youth-driven problem solving and sustainable entrepreneurial solutions.
+              We aim to bring monumental positive change to our communities by
+              promoting creative, youth-driven problem solving and sustainable
+              entrepreneurial solutions.
             </p>
           </div>
         </div>
@@ -141,7 +157,8 @@ export default function Home() {
           <div className="badge-pill">Collaborative Impact</div>
           <h2 className="section-title">Our Strategic Partners</h2>
           <p className="section-subtitle">
-            Working hand-in-hand with leading organizations to expand opportunities for Kenyan youth.
+            Working hand-in-hand with leading organizations to expand
+            opportunities for Kenyan youth.
           </p>
         </div>
 
@@ -160,7 +177,9 @@ export default function Home() {
               <span>Purpose Life Leadership Hub</span>
               <ExternalLink size={16} />
             </div>
-            <span className="partner-tag">Strategic Leadership & Mentorship Partner</span>
+            <span className="partner-tag">
+              Strategic Leadership & Mentorship Partner
+            </span>
           </a>
         </div>
       </section>
@@ -171,7 +190,9 @@ export default function Home() {
           <div className="cta-content">
             <h2>Ready to Elevate Your Focus?</h2>
             <p>
-              Join the Unique Focus Association today and become part of a nationwide community driving leadership excellence, career readiness, and positive impact.
+              Join the Unique Focus Association today and become part of a
+              nationwide community driving leadership excellence, career
+              readiness, and positive impact.
             </p>
             <Link to="/Contact" className="btn-primary">
               <Sparkles size={18} />
