@@ -12,6 +12,7 @@ import official5 from "../assets/official_5.jpeg";
 import official6 from "../assets/official_6.jpeg";
 import official7 from "../assets/official_7.jpg";
 import official8 from "../assets/official_8.jpeg";
+import official9 from "../assets/official_9.jpeg";
 
 // Map JSON paths and IDs to bundled assets
 const assetMap = {
@@ -23,7 +24,7 @@ const assetMap = {
   6: official2,
   7: official7,
   8: official8,
-  9: official7,
+  9: official9,
   10: official7,
   11: official7,
   "/officials/official_1.jpeg": official1,
