@@ -26,7 +26,7 @@ const assetMap = {
   8: official8,
   9: official9,
   10: official7,
-  11: official7,
+  11: official9,
   "/officials/official_1.jpeg": official1,
   "/officials/official_2.jpeg": official2,
   "/officials/official_3.jpeg": official3,
