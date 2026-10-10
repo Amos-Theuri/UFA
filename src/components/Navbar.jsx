@@ -54,7 +54,12 @@ export default function Navbar() {
           to="/" 
           className={styles.brand} 
           aria-label="Unique Focus Association Homepage"
-          onClick={() => setIsOpen(false)}
+          onClick={() => {
+            setIsOpen(false);
+            if (location.pathname === "/") {
+              window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+            }
+          }}
         >
           <div className={styles.logoWrapper}>
             <img src={logoImg} alt="UFA Logo" className={styles.logoImage} />
@@ -75,9 +80,14 @@ export default function Navbar() {
                   <Link
                     to={link.path}
                     className={`${styles.navLink} ${isActive ? styles.activeLink : ""}`}
+                    onClick={() => {
+                      if (location.pathname.toLowerCase() === link.path.toLowerCase()) {
+                        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+                      }
+                    }}
                   >
-                    {link.name}
-                    {isActive && <span className={styles.activeIndicator} />}
+                    <span>{link.name}</span>
+                    <span className={`${styles.navIndicator} ${isActive ? styles.activeIndicator : ""}`} />
                   </Link>
                 </li>
               );
@@ -93,13 +103,15 @@ export default function Navbar() {
 
         {/* Mobile Hamburger Toggle Button */}
         <button
-          className={styles.hamburger}
+          className={`${styles.hamburger} ${isOpen ? styles.hamburgerActive : ""}`}
           type="button"
           onClick={() => setIsOpen(!isOpen)}
           aria-expanded={isOpen}
           aria-label={isOpen ? "Close menu" : "Open menu"}
         >
-          {isOpen ? <X size={26} color="#00e5c1" /> : <Menu size={26} color="#ffffff" />}
+          <span className={styles.hamburgerIconBox}>
+            {isOpen ? <X size={26} color="#00e5c1" /> : <Menu size={26} color="#ffffff" />}
+          </span>
         </button>
 
         {/* Mobile Menu Drawer */}
@@ -108,14 +120,23 @@ export default function Navbar() {
           aria-hidden={!isOpen}
         >
           <ul className={styles.mobileNavList}>
-            {navLinks.map((link) => {
+            {navLinks.map((link, index) => {
               const isActive = location.pathname.toLowerCase() === link.path.toLowerCase();
               return (
-                <li key={link.path} className={styles.mobileNavItem}>
+                <li 
+                  key={link.path} 
+                  className={styles.mobileNavItem}
+                  style={{ "--item-index": index }}
+                >
                   <Link
                     to={link.path}
                     className={`${styles.mobileNavLink} ${isActive ? styles.mobileActiveLink : ""}`}
-                    onClick={() => setIsOpen(false)}
+                    onClick={() => {
+                      setIsOpen(false);
+                      if (location.pathname.toLowerCase() === link.path.toLowerCase()) {
+                        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+                      }
+                    }}
                   >
                     <span>{link.name}</span>
                     <ArrowRight size={18} className={styles.mobileLinkArrow} />
@@ -125,7 +146,10 @@ export default function Navbar() {
             })}
           </ul>
 
-          <div className={styles.mobileCtaWrapper}>
+          <div 
+            className={styles.mobileCtaWrapper}
+            style={{ "--item-index": navLinks.length }}
+          >
             <Link
               to="/Contact"
               className={styles.mobileJoinBtn}

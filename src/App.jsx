@@ -9,17 +9,26 @@ import Footer from "./components/Footer";
 import Merchendise from "./Pages/Merchendise";
 import "./App.css";
 
-// Scroll to top automatically on route changes
+// Smooth scroll to top or hash target on route/hash changes
 function ScrollToTop() {
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
 
   useEffect(() => {
+    if (hash) {
+      const elementId = hash.replace("#", "");
+      const element = document.getElementById(elementId);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+        return;
+      }
+    }
+
     window.scrollTo({
       top: 0,
       left: 0,
-      behavior: "instant"
+      behavior: "smooth"
     });
-  }, [pathname]);
+  }, [pathname, hash]);
 
   return null;
 }

@@ -69,6 +69,7 @@
 html {
   font-family: var(--font-sans);
   scroll-behavior: smooth;
+  scroll-padding-top: 85px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
