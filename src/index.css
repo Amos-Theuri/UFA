@@ -74,7 +74,7 @@ html {
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
-  overflow-x: hidden;
+  overflow-x: clip;
   width: 100%;
 }
 
@@ -85,7 +85,7 @@ body {
   color: var(--text-primary);
   line-height: 1.6;
   font-size: 1rem;
-  overflow-x: hidden;
+  overflow-x: clip;
   width: 100%;
   min-width: 320px;
 }
@@ -96,7 +96,6 @@ body {
   display: flex;
   flex-direction: column;
   width: 100%;
-  overflow-x: hidden;
 }
 
 main {
