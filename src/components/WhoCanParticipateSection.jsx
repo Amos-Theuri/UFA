@@ -1,10 +1,10 @@
-// src/components/WhoCanParticipateSection.jsx
-import { Link } from "react-router-dom";
 import { whoCanParticipate } from "../data/ufaCore";
 import { Sparkles, Users, HeartHandshake } from "lucide-react";
+import { useJoinModal } from "../context/useJoinModal";
 import styles from "./WhoCanParticipateSection.module.css";
 
 export default function WhoCanParticipateSection() {
+  const { openJoinModal } = useJoinModal();
   return (
     <section className={styles.section} id="who-can-participate" aria-labelledby="participate-heading">
       <div className={styles.container}>
@@ -51,10 +51,15 @@ export default function WhoCanParticipateSection() {
               </p>
             </div>
           </div>
-          <Link to="/Contact" className="btn-primary">
+          <button 
+            type="button" 
+            onClick={openJoinModal} 
+            className="btn-primary"
+            style={{ border: "none", cursor: "pointer", fontFamily: "inherit" }}
+          >
             <Sparkles size={18} />
             <span>Join UFA Today</span>
-          </Link>
+          </button>
         </div>
       </div>
     </section>

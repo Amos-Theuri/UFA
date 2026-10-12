@@ -10,9 +10,11 @@ import {
   Clock 
 } from "lucide-react";
 import featImg from "../assets/featImg.png";
+import { useJoinModal } from "../context/useJoinModal";
 import "../styles/style.css";
 
 export default function Contact() {
+  const { openJoinModal } = useJoinModal();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -39,10 +41,14 @@ export default function Contact() {
   };
 
   const handleChange = (e) => {
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [name]: value
     });
+    if (name === "subject" && value === "join") {
+      openJoinModal();
+    }
   };
 
   return (
@@ -61,6 +67,17 @@ export default function Contact() {
             <p>
               Whether you want to join as a member, partner with our youth initiatives, inquire about county chapters, or order merchandise, our team is here to assist.
             </p>
+            <div style={{ marginTop: "1.25rem" }}>
+              <button
+                type="button"
+                onClick={openJoinModal}
+                className="btn-primary"
+                style={{ border: "none", cursor: "pointer", fontFamily: "inherit" }}
+              >
+                <Sparkles size={18} />
+                <span>Join UFA Membership Form</span>
+              </button>
+            </div>
           </div>
 
           <div className="image-content">

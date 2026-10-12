@@ -11,9 +11,11 @@ import ImpactPathwaySection from "../components/ImpactPathwaySection";
 import WhoCanParticipateSection from "../components/WhoCanParticipateSection";
 import PropositionBanner from "../components/PropositionBanner";
 import { ufaPillars } from "../data/ufaCore";
+import { useJoinModal } from "../context/useJoinModal";
 import "../styles/style.css";
 
 export default function About() {
+  const { openJoinModal } = useJoinModal();
   return (
     <>
       {/* Hero Section */}
@@ -32,10 +34,15 @@ export default function About() {
               Unique Focus Association (UFA) is a youth development and community-impact organisation that connects young people to networks, mentorship, skills, career opportunities, leadership experiences, and community initiatives across Kenya.
             </p>
             <div className="hero-actions">
-              <Link to="/Contact" className="btn-primary">
+              <button 
+                type="button" 
+                onClick={openJoinModal} 
+                className="btn-primary"
+                style={{ border: "none", cursor: "pointer", fontFamily: "inherit" }}
+              >
                 <span>Join Our Movement</span>
                 <ArrowRight size={18} />
-              </Link>
+              </button>
               <Link to="/Features" className="btn-secondary">
                 <span>Our Programmes</span>
               </Link>
@@ -143,10 +150,15 @@ export default function About() {
             <p>
               Join the Unique Focus Association today and connect with an expansive national network of purpose-driven young leaders, mentors, and community builders.
             </p>
-            <Link to="/Contact" className="btn-primary">
+            <button 
+              type="button" 
+              onClick={openJoinModal} 
+              className="btn-primary"
+              style={{ border: "none", cursor: "pointer", fontFamily: "inherit" }}
+            >
               <Sparkles size={18} />
               <span>Join UFA Today</span>
-            </Link>
+            </button>
           </div>
         </div>
       </section>

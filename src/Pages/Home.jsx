@@ -16,9 +16,11 @@ import MentorshipProgramsSection from "../components/MentorshipProgramsSection";
 import WhoCanParticipateSection from "../components/WhoCanParticipateSection";
 import PartnersSection from "../components/PartnersSection";
 import { pastEvents } from "../data/pastEvents";
+import { useJoinModal } from "../context/useJoinModal";
 import "../styles/style.css";
 
 export default function Home() {
+  const { openJoinModal } = useJoinModal();
   const featuredEvents = pastEvents.slice(0, 3);
 
   return (
@@ -39,10 +41,15 @@ export default function Home() {
               Unique Focus Association (UFA) connects young people to vibrant networks, professional mentorship, practical skills, career opportunities, leadership experiences, and grassroots community initiatives across Kenya.
             </p>
             <div className="hero-actions">
-              <Link to="/Contact" className="btn-primary">
+              <button 
+                type="button" 
+                onClick={openJoinModal} 
+                className="btn-primary"
+                style={{ border: "none", cursor: "pointer", fontFamily: "inherit" }}
+              >
                 <span>Join Our Network</span>
                 <ArrowRight size={18} />
-              </Link>
+              </button>
               <Link to="/Features" className="btn-secondary">
                 <Compass size={18} />
                 <span>Mentorship Programmes</span>
@@ -170,10 +177,15 @@ export default function Home() {
             <p>
               Join the Unique Focus Association today. You don&rsquo;t have to be established or influential to belong—all you need is purpose, passion, and the drive to make a difference.
             </p>
-            <Link to="/Contact" className="btn-primary">
+            <button 
+              type="button" 
+              onClick={openJoinModal} 
+              className="btn-primary"
+              style={{ border: "none", cursor: "pointer", fontFamily: "inherit" }}
+            >
               <Sparkles size={18} />
               <span>Join UFA Today</span>
-            </Link>
+            </button>
           </div>
         </div>
       </section>

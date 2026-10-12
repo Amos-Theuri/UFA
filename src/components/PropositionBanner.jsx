@@ -1,9 +1,10 @@
-// src/components/PropositionBanner.jsx
 import { Sparkles, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useJoinModal } from "../context/useJoinModal";
 import styles from "./PropositionBanner.module.css";
 
 export default function PropositionBanner() {
+  const { openJoinModal } = useJoinModal();
   return (
     <section className={styles.section} aria-label="UFA Distinctive Proposition">
       <div className={styles.container}>
@@ -47,9 +48,14 @@ export default function PropositionBanner() {
             <span>Explore Our Programmes</span>
             <ArrowRight size={18} />
           </Link>
-          <Link to="/Contact" className="btn-secondary">
+          <button 
+            type="button" 
+            onClick={openJoinModal} 
+            className="btn-secondary"
+            style={{ border: "1px solid rgba(255, 255, 255, 0.2)", cursor: "pointer", fontFamily: "inherit" }}
+          >
             <span>Join Our Network</span>
-          </Link>
+          </button>
         </div>
       </div>
     </section>

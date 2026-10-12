@@ -1,11 +1,12 @@
-// src/components/Navbar.jsx
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, ArrowRight, Sparkles } from "lucide-react";
+import { useJoinModal } from "../context/useJoinModal";
 import styles from "./Navbar.module.css";
 import logoImg from "../assets/logo.png";
 
 export default function Navbar() {
+  const { openJoinModal } = useJoinModal();
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
@@ -95,10 +96,15 @@ export default function Navbar() {
           </ul>
 
           {/* Desktop Join CTA Button */}
-          <Link to="/Contact" className={styles.joinBtn}>
+          <button 
+            type="button" 
+            onClick={openJoinModal} 
+            className={styles.joinBtn}
+            aria-label="Join Unique Focus Association"
+          >
             <span>Join UFA</span>
             <ArrowRight size={16} className={styles.btnIcon} />
-          </Link>
+          </button>
         </div>
 
         {/* Mobile Hamburger Toggle Button */}
@@ -150,14 +156,18 @@ export default function Navbar() {
             className={styles.mobileCtaWrapper}
             style={{ "--item-index": navLinks.length }}
           >
-            <Link
-              to="/Contact"
+            <button
+              type="button"
               className={styles.mobileJoinBtn}
-              onClick={() => setIsOpen(false)}
+              onClick={() => {
+                setIsOpen(false);
+                openJoinModal();
+              }}
+              aria-label="Join Unique Focus Association"
             >
               <Sparkles size={18} />
               <span>Join UFA Today</span>
-            </Link>
+            </button>
           </div>
         </div>
       </nav>

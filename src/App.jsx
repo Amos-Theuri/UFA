@@ -7,6 +7,8 @@ import Contact from "./Pages/Contact";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Merchendise from "./Pages/Merchendise";
+import JoinModal from "./components/JoinModal";
+import { JoinModalProvider } from "./context/JoinModalContext";
 import "./App.css";
 
 // Smooth scroll to top or hash target on route/hash changes
@@ -35,7 +37,7 @@ function ScrollToTop() {
 
 function App() {
   return (
-    <>
+    <JoinModalProvider>
       <ScrollToTop />
       <Navbar />
       <main>
@@ -48,7 +50,8 @@ function App() {
         </Routes>
       </main>
       <Footer />
-    </>
+      <JoinModal />
+    </JoinModalProvider>
   );
 }
 
