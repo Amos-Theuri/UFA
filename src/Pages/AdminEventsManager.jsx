@@ -21,7 +21,8 @@ import {
   updateUpcomingEvent,
   deleteUpcomingEvent,
   resetToDefaultUpcomingEvents,
-  subscribeToUpcomingEvents
+  subscribeToUpcomingEvents,
+  fetchUpcomingEventsFromSupabase
 } from "../services/upcomingEventsService";
 import {
   verifyAdminPasscode,
@@ -69,9 +70,16 @@ export default function AdminEventsManager() {
     return () => clearInterval(interval);
   }, [lockoutSec]);
 
-  // Subscribe to upcoming events reactive updates
+  // Subscribe to upcoming events reactive updates & fetch from Supabase
   useEffect(() => {
     if (!isAuthenticated) return;
+
+    fetchUpcomingEventsFromSupabase().then((latest) => {
+      if (latest && latest.length > 0) {
+        setEvents(latest);
+      }
+    });
+
     const unsubscribe = subscribeToUpcomingEvents((updated) => {
       setEvents(updated);
     });

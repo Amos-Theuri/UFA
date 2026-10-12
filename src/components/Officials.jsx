@@ -1,7 +1,9 @@
 // src/components/Officials.jsx
+import { useState, useEffect } from "react";
 import { Award, Sparkles } from "lucide-react";
 import styles from "./Officials.module.css";
 import officialsData from "../data/officials.json";
+import { supabase, isSupabaseConfigured } from "../lib/supabaseClient";
 
 // Import all official leadership photos from assets
 import official1 from "../assets/official_1.jpeg";
@@ -60,7 +62,7 @@ const assetMap = {
 
 function resolveOfficialImage(official) {
   if (!official) return official1;
-  const imagePath = typeof official === "string" ? official : official.image;
+  const imagePath = typeof official === "string" ? official : (official.image || official.image_url);
   const id = typeof official === "object" ? official.id : null;
 
   if (id && assetMap[id]) return assetMap[id];
@@ -80,6 +82,34 @@ function resolveOfficialImage(official) {
 }
 
 export default function Officials() {
+  const [officialsList, setOfficialsList] = useState(officialsData);
+
+  useEffect(() => {
+    async function fetchOfficials() {
+      if (!isSupabaseConfigured || !supabase) return;
+
+      try {
+        const { data, error } = await supabase
+          .from("officials")
+          .select("*")
+          .eq("is_active", true)
+          .order("display_order", { ascending: true });
+
+        if (!error && data && data.length > 0) {
+          const normalized = data.map((item) => ({
+            ...item,
+            image: item.image || item.image_url
+          }));
+          setOfficialsList(normalized);
+        }
+      } catch (err) {
+        console.warn("Could not fetch remote officials, using local default:", err);
+      }
+    }
+
+    fetchOfficials();
+  }, []);
+
   return (
     <section className={styles.section} aria-labelledby="officials-heading">
       <div className={styles.container}>
@@ -98,7 +128,7 @@ export default function Officials() {
         </div>
 
         <div className={styles.grid}>
-          {officialsData.map((official) => {
+          {officialsList.map((official) => {
             const imgSrc = resolveOfficialImage(official);
             return (
               <article key={official.id} className={styles.card}>

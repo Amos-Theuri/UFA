@@ -14,6 +14,7 @@ import {
   Compass
 } from "lucide-react";
 import { useJoinModal } from "../context/useJoinModal";
+import { supabase, isSupabaseConfigured } from "../lib/supabaseClient";
 import styles from "./JoinModal.module.css";
 
 const KENYAN_COUNTIES = [
@@ -179,7 +180,7 @@ function JoinModalDialog({ onClose }) {
     setErrors((prev) => ({ ...prev, [name]: err }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const validationErrors = validateAll();
@@ -201,21 +202,40 @@ function JoinModalDialog({ onClose }) {
     setFormAlert("");
     setIsSubmitting(true);
 
-    setTimeout(() => {
-      try {
+    try {
+      if (isSupabaseConfigured && supabase) {
+        const { error } = await supabase
+          .from("membership_applications")
+          .insert([
+            {
+              name: formData.name.trim(),
+              email: formData.email.trim().toLowerCase(),
+              contact: formData.contact.trim(),
+              county: formData.county,
+              area_of_interest: formData.areaOfInterest,
+            },
+          ]);
+
+        if (error) {
+          throw error;
+        }
+      } else {
+        // Fallback to local storage if Supabase credentials are not yet configured
         const stored = JSON.parse(localStorage.getItem("ufa_join_applications") || "[]");
         stored.push({
           ...formData,
           submittedAt: new Date().toISOString()
         });
         localStorage.setItem("ufa_join_applications", JSON.stringify(stored));
-      } catch (err) {
-        console.warn("Could not save application to localStorage:", err);
       }
 
-      setIsSubmitting(false);
       setIsSuccess(true);
-    }, 700);
+    } catch (err) {
+      console.error("Membership application error:", err);
+      setFormAlert("Could not submit application. Please check your internet connection or try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleBackdropClick = (e) => {

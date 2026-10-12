@@ -7,10 +7,12 @@ import {
   Send, 
   Sparkles, 
   CheckCircle2, 
-  Clock 
+  Clock,
+  Loader2
 } from "lucide-react";
 import featImg from "../assets/featImg.png";
 import { useJoinModal } from "../context/useJoinModal";
+import { supabase, isSupabaseConfigured } from "../lib/supabaseClient";
 import "../styles/style.css";
 
 export default function Contact() {
@@ -23,13 +25,30 @@ export default function Contact() {
     message: ""
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Front-end handler before backend connection
-    setIsSubmitted(true);
-    setTimeout(() => {
-      setIsSubmitted(false);
+    setIsLoading(true);
+
+    try {
+      if (isSupabaseConfigured && supabase) {
+        const { error } = await supabase
+          .from("contact_messages")
+          .insert([
+            {
+              name: formData.name.trim(),
+              email: formData.email.trim().toLowerCase(),
+              phone: formData.phone.trim(),
+              subject: formData.subject,
+              message: formData.message.trim(),
+            },
+          ]);
+
+        if (error) throw error;
+      }
+
+      setIsSubmitted(true);
       setFormData({
         name: "",
         email: "",
@@ -37,7 +56,15 @@ export default function Contact() {
         subject: "general",
         message: ""
       });
-    }, 4000);
+      setTimeout(() => {
+        setIsSubmitted(false);
+      }, 5000);
+    } catch (err) {
+      console.error("Error submitting contact inquiry:", err);
+      alert("Unable to send inquiry right now. Please try calling or messaging via WhatsApp.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleChange = (e) => {
@@ -272,9 +299,9 @@ export default function Contact() {
                   ></textarea>
                 </div>
 
-                <button type="submit" className="submit-btn">
-                  <Send size={18} />
-                  <span>Send Message</span>
+                <button type="submit" className="submit-btn" disabled={isLoading}>
+                  {isLoading ? <Loader2 size={18} className="spin-icon" /> : <Send size={18} />}
+                  <span>{isLoading ? "Sending Message..." : "Send Message"}</span>
                 </button>
               </form>
             )}

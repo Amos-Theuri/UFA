@@ -13,7 +13,11 @@ import {
   X,
   Radio
 } from "lucide-react";
-import { getUpcomingEvents, subscribeToUpcomingEvents } from "../services/upcomingEventsService";
+import { 
+  getUpcomingEvents, 
+  subscribeToUpcomingEvents, 
+  fetchUpcomingEventsFromSupabase 
+} from "../services/upcomingEventsService";
 import styles from "./UpcomingEventsSection.module.css";
 
 export default function UpcomingEventsSection() {
@@ -21,6 +25,12 @@ export default function UpcomingEventsSection() {
   const [selectedEvent, setSelectedEvent] = useState(null);
 
   useEffect(() => {
+    fetchUpcomingEventsFromSupabase().then((latest) => {
+      if (latest && latest.length > 0) {
+        setEvents(latest);
+      }
+    });
+
     const unsubscribe = subscribeToUpcomingEvents((updated) => {
       setEvents(updated);
     });

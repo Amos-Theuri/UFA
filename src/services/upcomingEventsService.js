@@ -1,5 +1,6 @@
 // src/services/upcomingEventsService.js
 import { defaultUpcomingEvents } from "../data/upcomingEvents";
+import { supabase, isSupabaseConfigured } from "../lib/supabaseClient";
 
 const STORAGE_KEY = "ufa_upcoming_events";
 
@@ -38,7 +39,32 @@ export function saveUpcomingEvents(events) {
   }
 }
 
-export function addUpcomingEvent(eventData) {
+export async function fetchUpcomingEventsFromSupabase() {
+  if (!isSupabaseConfigured || !supabase) return getUpcomingEvents();
+
+  try {
+    const { data, error } = await supabase
+      .from("upcoming_events")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) throw error;
+    if (data && data.length > 0) {
+      const mapped = data.map((item) => ({
+        ...item,
+        registrationLink: item.registration_link || item.registrationLink || "",
+        isPublished: item.is_published !== false
+      }));
+      saveUpcomingEvents(mapped);
+      return mapped;
+    }
+  } catch (err) {
+    console.warn("Could not fetch remote events, using local cache:", err);
+  }
+  return getUpcomingEvents();
+}
+
+export async function addUpcomingEvent(eventData) {
   const current = getUpcomingEvents();
   const newEvent = {
     ...eventData,
@@ -48,19 +74,74 @@ export function addUpcomingEvent(eventData) {
   };
   const updated = [newEvent, ...current];
   saveUpcomingEvents(updated);
+
+  if (isSupabaseConfigured && supabase) {
+    try {
+      await supabase.from("upcoming_events").insert([
+        {
+          id: newEvent.id,
+          title: newEvent.title,
+          subtitle: newEvent.subtitle || "",
+          category: newEvent.category || "Leadership Summit",
+          date: newEvent.date,
+          time: newEvent.time || "",
+          location: newEvent.location || "",
+          platform: newEvent.platform || "",
+          speakers: Array.isArray(newEvent.speakers) ? newEvent.speakers : [],
+          registration_link: newEvent.registrationLink || "",
+          badge: newEvent.badge || "",
+          description: newEvent.description || "",
+          is_published: newEvent.isPublished
+        }
+      ]);
+    } catch (err) {
+      console.warn("Could not sync added event to Supabase:", err);
+    }
+  }
+
   return newEvent;
 }
 
-export function updateUpcomingEvent(id, updatedFields) {
+export async function updateUpcomingEvent(id, updatedFields) {
   const current = getUpcomingEvents();
   const updated = current.map(item => (item.id === id ? { ...item, ...updatedFields } : item));
   saveUpcomingEvents(updated);
+
+  if (isSupabaseConfigured && supabase) {
+    try {
+      const payload = {};
+      if (updatedFields.title !== undefined) payload.title = updatedFields.title;
+      if (updatedFields.subtitle !== undefined) payload.subtitle = updatedFields.subtitle;
+      if (updatedFields.category !== undefined) payload.category = updatedFields.category;
+      if (updatedFields.date !== undefined) payload.date = updatedFields.date;
+      if (updatedFields.time !== undefined) payload.time = updatedFields.time;
+      if (updatedFields.location !== undefined) payload.location = updatedFields.location;
+      if (updatedFields.platform !== undefined) payload.platform = updatedFields.platform;
+      if (updatedFields.speakers !== undefined) payload.speakers = updatedFields.speakers;
+      if (updatedFields.registrationLink !== undefined) payload.registration_link = updatedFields.registrationLink;
+      if (updatedFields.badge !== undefined) payload.badge = updatedFields.badge;
+      if (updatedFields.description !== undefined) payload.description = updatedFields.description;
+      if (updatedFields.isPublished !== undefined) payload.is_published = updatedFields.isPublished;
+
+      await supabase.from("upcoming_events").update(payload).eq("id", id);
+    } catch (err) {
+      console.warn("Could not sync updated event to Supabase:", err);
+    }
+  }
 }
 
-export function deleteUpcomingEvent(id) {
+export async function deleteUpcomingEvent(id) {
   const current = getUpcomingEvents();
   const updated = current.filter(item => item.id !== id);
   saveUpcomingEvents(updated);
+
+  if (isSupabaseConfigured && supabase) {
+    try {
+      await supabase.from("upcoming_events").delete().eq("id", id);
+    } catch (err) {
+      console.warn("Could not sync deleted event to Supabase:", err);
+    }
+  }
 }
 
 export function resetToDefaultUpcomingEvents() {
