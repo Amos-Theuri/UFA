@@ -6,3 +6,4 @@ export const JoinModalContext = createContext({
   openJoinModal: () => {},
   closeJoinModal: () => {},
 });
+

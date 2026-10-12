@@ -504,3 +504,4 @@ export default function JoinModal() {
 
   return <JoinModalDialog onClose={closeJoinModal} />;
 }
+
