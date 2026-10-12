@@ -34,3 +34,4 @@ export const defaultUpcomingEvents = [
     createdAt: "2026-10-12T00:00:00.000Z"
   }
 ];
+

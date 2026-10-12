@@ -82,3 +82,4 @@ export function subscribeToUpcomingEvents(callback) {
     window.removeEventListener("storage", handler);
   };
 }
+
