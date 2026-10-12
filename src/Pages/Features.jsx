@@ -7,9 +7,11 @@ import {
   Compass, 
   CheckCircle2, 
   Sparkles, 
-  Calendar 
+  Calendar,
+  Radio
 } from "lucide-react";
 import featImg from "../assets/featImg.png";
+import UpcomingEventsSection from "../components/UpcomingEventsSection";
 import MentorshipProgramsSection from "../components/MentorshipProgramsSection";
 import PastEventsSection from "../components/PastEventsSection";
 import "../styles/style.css";
@@ -80,13 +82,17 @@ export default function Features() {
               Explore our structured mentorship programmes, documented previous talks and events, practical career accelerators, and grassroots community initiatives across Kenya.
             </p>
             <div className="hero-actions">
-              <a href="#mentorship-programs" className="btn-primary">
+              <a href="#upcoming-events" className="btn-primary">
+                <Radio size={18} />
+                <span>Upcoming Events</span>
+              </a>
+              <a href="#mentorship-programs" className="btn-secondary">
                 <Compass size={18} />
                 <span>Mentorship Programmes</span>
               </a>
               <a href="#previous-events" className="btn-secondary">
                 <Calendar size={18} />
-                <span>Previous Events & Talks</span>
+                <span>Previous Talks</span>
               </a>
             </div>
           </div>
@@ -98,6 +104,9 @@ export default function Features() {
           </div>
         </div>
       </section>
+
+      {/* Upcoming Events & Masterclasses Section */}
+      <UpcomingEventsSection />
 
       {/* Mentorship Programmes Section (Full Showcase) */}
       <MentorshipProgramsSection isPreview={false} />

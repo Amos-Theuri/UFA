@@ -23,6 +23,7 @@ dist-ssr
 *.sln
 *.sw?
 
-# Ignore all markdown files except README.md
+# Ignore all markdown files except README.md and documentation guides
 *.md
 !README.md
+!SUPABASE_INTEGRATION_GUIDE.md
