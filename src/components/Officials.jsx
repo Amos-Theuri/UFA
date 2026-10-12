@@ -13,6 +13,7 @@ import official6 from "../assets/official_6.jpeg";
 import official7 from "../assets/official_7.jpg";
 import official8 from "../assets/official_8.jpeg";
 import official9 from "../assets/official_9.jpeg";
+import official11 from "../assets/official_11.jpeg";
 
 // Map JSON paths and IDs to bundled assets
 const assetMap = {
@@ -26,7 +27,7 @@ const assetMap = {
   8: official8,
   9: official9,
   10: official7,
-  11: official9,
+  11: official11,
   "/officials/official_1.jpeg": official1,
   "/officials/official_2.jpeg": official2,
   "/officials/official_3.jpeg": official3,
@@ -35,6 +36,12 @@ const assetMap = {
   "/officials/official_6.jpeg": official6,
   "/officials/official_7.jpg": official7,
   "/officials/official_7.jpeg": official7,
+  "/officials/official_8.jpeg": official8,
+  "/officials/official_8.jpg": official8,
+  "/officials/official_9.jpeg": official9,
+  "/officials/official_9.jpg": official9,
+  "/officials/official_11.jpeg": official11,
+  "/officials/official_11.jpg": official11,
   "official_1.jpeg": official1,
   "official_2.jpeg": official2,
   "official_3.jpeg": official3,
@@ -43,6 +50,12 @@ const assetMap = {
   "official_6.jpeg": official6,
   "official_7.jpg": official7,
   "official_7.jpeg": official7,
+  "official_8.jpeg": official8,
+  "official_8.jpg": official8,
+  "official_9.jpeg": official9,
+  "official_9.jpg": official9,
+  "official_11.jpeg": official11,
+  "official_11.jpg": official11,
 };
 
 function resolveOfficialImage(official) {
