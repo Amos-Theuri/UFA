@@ -1,0 +1,1 @@
+var e=`/UFA/assets/featImg-BtFmfzzv.png`;export{e as t};
