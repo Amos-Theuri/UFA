@@ -1,16 +1,17 @@
-import { useEffect } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
-import Home from "./Pages/Home";
-import About from "./Pages/About";
-import Features from "./Pages/Features";
-import Contact from "./Pages/Contact";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-import Merchendise from "./Pages/Merchendise";
-import AdminEventsManager from "./Pages/AdminEventsManager";
 import JoinModal from "./components/JoinModal";
 import { JoinModalProvider } from "./context/JoinModalContext";
 import "./App.css";
+
+const Home = lazy(() => import("./Pages/Home"));
+const About = lazy(() => import("./Pages/About"));
+const Features = lazy(() => import("./Pages/Features"));
+const Contact = lazy(() => import("./Pages/Contact"));
+const Merchendise = lazy(() => import("./Pages/Merchendise"));
+const AdminEventsManager = lazy(() => import("./Pages/AdminEventsManager"));
 
 // Smooth scroll to top or hash target on route/hash changes
 function ScrollToTop() {
@@ -42,17 +43,19 @@ function App() {
       <ScrollToTop />
       <Navbar />
       <main>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/About" element={<About />} />
-          <Route path="/Features" element={<Features />} />
-          <Route path="/programs" element={<Features />} />
-          <Route path="/Contact" element={<Contact />} />
-          <Route path="/Merchendise" element={<Merchendise />} />
-          {/* Secure administrative routes - unlinked in navigation, protected by passcode */}
-          <Route path="/admin/events" element={<AdminEventsManager />} />
-          <Route path="/portal/events-manager" element={<AdminEventsManager />} />
-        </Routes>
+        <Suspense fallback={<div className="page-loading-fallback" />}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/About" element={<About />} />
+            <Route path="/Features" element={<Features />} />
+            <Route path="/programs" element={<Features />} />
+            <Route path="/Contact" element={<Contact />} />
+            <Route path="/Merchendise" element={<Merchendise />} />
+            {/* Secure administrative routes - unlinked in navigation, protected by passcode */}
+            <Route path="/admin/events" element={<AdminEventsManager />} />
+            <Route path="/portal/events-manager" element={<AdminEventsManager />} />
+          </Routes>
+        </Suspense>
       </main>
       <Footer />
       <JoinModal />
