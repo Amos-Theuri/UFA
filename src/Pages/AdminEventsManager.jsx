@@ -204,7 +204,7 @@ export default function AdminEventsManager() {
       location: formData.location.trim(),
       platform: formData.platform.trim(),
       badge: formData.badge.trim(),
-      registrationLink: formData.registrationLink.trim(),
+      registrationLink: formData.registrationLink.trim().replace(/^javascript:/i, ""),
       description: formData.description.trim(),
       speakers: formData.speakers
         ? formData.speakers.split(",").map((s) => s.trim()).filter(Boolean)

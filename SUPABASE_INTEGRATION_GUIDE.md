@@ -201,12 +201,16 @@ FOR SELECT
 USING (is_published = true);
 
 -- 4. Policy: Authenticated users / Service Role can manage all events (Insert, Update, Delete)
+-- When managing via Supabase Dashboard or authenticated admin users:
 CREATE POLICY "Allow admin full access to events"
 ON public.upcoming_events
 FOR ALL
 TO authenticated
 USING (true)
 WITH CHECK (true);
+
+-- (Alternative) If you want direct event writes from the custom /admin/events portal using the anon key:
+-- CREATE POLICY "Allow portal manage events" ON public.upcoming_events FOR ALL TO anon USING (true) WITH CHECK (true);
 ```
 
 #### Seed Initial Upcoming Events Data (Matching Current Project State)

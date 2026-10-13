@@ -299,6 +299,10 @@ export default function Contact() {
                   ></textarea>
                 </div>
 
+                <p style={{ fontSize: "0.775rem", color: "var(--text-secondary, #64748b)", margin: "0.5rem 0 1rem 0", lineHeight: "1.45" }}>
+                  By submitting an inquiry, you agree to UFA processing your details strictly to respond to your request.
+                </p>
+
                 <button type="submit" className="submit-btn" disabled={isLoading}>
                   {isLoading ? <Loader2 size={18} className="spin-icon" /> : <Send size={18} />}
                   <span>{isLoading ? "Sending Message..." : "Send Message"}</span>

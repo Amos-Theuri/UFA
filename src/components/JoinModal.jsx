@@ -491,6 +491,11 @@ function JoinModalDialog({ onClose }) {
                 )}
               </div>
 
+              {/* Privacy Notice */}
+              <p className={styles.privacyConsentNotice}>
+                By submitting, you consent to UFA storing and processing your contact information in accordance with the Kenya Data Protection Act for membership communications.
+              </p>
+
               {/* Submit CTA */}
               <button
                 type="submit"

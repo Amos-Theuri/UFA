@@ -20,6 +20,14 @@ import {
 } from "../services/upcomingEventsService";
 import styles from "./UpcomingEventsSection.module.css";
 
+function sanitizeUrl(url) {
+  if (!url) return "";
+  const trimmed = url.trim();
+  if (/^javascript:/i.test(trimmed)) return "#";
+  if (/^(https?:\/\/|mailto:)/i.test(trimmed)) return trimmed;
+  return `https://${trimmed}`;
+}
+
 export default function UpcomingEventsSection() {
   const [events, setEvents] = useState(() => getUpcomingEvents());
   const [selectedEvent, setSelectedEvent] = useState(null);
@@ -133,7 +141,7 @@ export default function UpcomingEventsSection() {
                   <div className={styles.cardActions}>
                     {event.registrationLink ? (
                       <a
-                        href={event.registrationLink}
+                        href={sanitizeUrl(event.registrationLink)}
                         target="_blank"
                         rel="noopener noreferrer"
                         className={styles.registerBtn}
@@ -226,7 +234,7 @@ export default function UpcomingEventsSection() {
 
               {selectedEvent.registrationLink && (
                 <a
-                  href={selectedEvent.registrationLink}
+                  href={sanitizeUrl(selectedEvent.registrationLink)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={styles.registerBtn}
