@@ -15,6 +15,7 @@ import official6 from "../assets/official_6.jpeg";
 import official7 from "../assets/official_7.jpg";
 import official8 from "../assets/official_8.jpeg";
 import official9 from "../assets/official_9.jpeg";
+import official10 from "../assets/official_10.jpg";
 import official11 from "../assets/official_11.jpeg";
 
 // Map JSON paths and IDs to bundled assets
@@ -28,7 +29,7 @@ const assetMap = {
   7: official7,
   8: official8,
   9: official9,
-  10: official7,
+  10: official10,
   11: official11,
   "/officials/official_1.jpeg": official1,
   "/officials/official_2.jpeg": official2,
@@ -42,6 +43,8 @@ const assetMap = {
   "/officials/official_8.jpg": official8,
   "/officials/official_9.jpeg": official9,
   "/officials/official_9.jpg": official9,
+  "/officials/official_10.jpg": official10,
+  "/officials/official_10.jpeg": official10,
   "/officials/official_11.jpeg": official11,
   "/officials/official_11.jpg": official11,
   "official_1.jpeg": official1,
@@ -56,6 +59,8 @@ const assetMap = {
   "official_8.jpg": official8,
   "official_9.jpeg": official9,
   "official_9.jpg": official9,
+  "official_10.jpg": official10,
+  "official_10.jpeg": official10,
   "official_11.jpeg": official11,
   "official_11.jpg": official11,
 };

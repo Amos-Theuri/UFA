@@ -138,7 +138,7 @@ VALUES
   (7, 'Derrick Wanjala', 'Director Communications and Advocacy', 'Handles media relations, public advocacy, and corporate communications for UFA.', '/officials/official_7.jpg', 7, true),
   (8, 'Dericks Ogola', 'National Vice Chair 2', 'Coordinates national membership recruitment and retention strategies.', '/officials/official_8.jpeg', 8, true),
   (9, 'Marian Magio', 'National Woman Representative', 'Leads national women empowerment and affirmative development programs.', '/officials/official_9.jpeg', 9, true),
-  (10, 'Tancliff Jones', 'Director of Programmes', 'Designs and executes high-impact national youth training and innovation programs.', '/officials/official_7.jpg', 10, true),
+  (10, 'Tancliff Jones', 'Director of Programmes', 'Designs and executes high-impact national youth training and innovation programs.', '/officials/official_10.jpg', 10, true),
   (11, 'Demtilla Otete', 'National Organizing Secretary', 'Plans and coordinates national conferences, regional summits, and youth campaigns.', '/officials/official_11.jpeg', 11, true)
 ON CONFLICT (id) DO UPDATE 
 SET name = EXCLUDED.name, 
