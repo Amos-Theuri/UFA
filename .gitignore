@@ -28,8 +28,9 @@ dist-ssr
 !README.md
 !SUPABASE_INTEGRATION_GUIDE.md
 
-# Environment variables
+# Environment variables & secrets
 .env
+.agents/mcp_config.json
 
 # logs
 npm_build_log
