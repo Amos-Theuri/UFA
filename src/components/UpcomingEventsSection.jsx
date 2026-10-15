@@ -79,6 +79,16 @@ export default function UpcomingEventsSection() {
           <div className={styles.grid}>
             {publishedEvents.map((event) => (
               <article key={event.id} className={styles.card}>
+                {event.image && (
+                  <div style={{ width: "100%", height: "180px", overflow: "hidden", background: "#0c1e30" }}>
+                    <img
+                      src={event.image}
+                      alt={event.title}
+                      style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                      loading="lazy"
+                    />
+                  </div>
+                )}
                 <div className={styles.cardTop}>
                   <span className={styles.categoryTag}>{event.category || "Programme"}</span>
                   {event.badge && (
@@ -187,6 +197,16 @@ export default function UpcomingEventsSection() {
               >
                 <X size={20} />
               </button>
+
+              {selectedEvent.image && (
+                <div style={{ width: "100%", maxHeight: "240px", overflow: "hidden", borderRadius: "10px", marginBottom: "1.25rem" }}>
+                  <img
+                    src={selectedEvent.image}
+                    alt={selectedEvent.title}
+                    style={{ width: "100%", maxHeight: "240px", objectFit: "cover", display: "block" }}
+                  />
+                </div>
+              )}
 
               <div style={{ marginBottom: "1.25rem" }}>
                 <span className={styles.categoryTag} style={{ display: "inline-block", marginBottom: "0.5rem" }}>

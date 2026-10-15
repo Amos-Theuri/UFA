@@ -11,7 +11,7 @@ const About = lazy(() => import("./Pages/About"));
 const Features = lazy(() => import("./Pages/Features"));
 const Contact = lazy(() => import("./Pages/Contact"));
 const Merchendise = lazy(() => import("./Pages/Merchendise"));
-const AdminEventsManager = lazy(() => import("./Pages/AdminEventsManager"));
+const AdminPortal = lazy(() => import("./Pages/AdminPortal"));
 
 // Smooth scroll to top or hash target on route/hash changes
 function ScrollToTop() {
@@ -51,9 +51,11 @@ function App() {
             <Route path="/programs" element={<Features />} />
             <Route path="/Contact" element={<Contact />} />
             <Route path="/Merchendise" element={<Merchendise />} />
-            {/* Secure administrative routes - unlinked in navigation, protected by passcode */}
-            <Route path="/admin/events" element={<AdminEventsManager />} />
-            <Route path="/portal/events-manager" element={<AdminEventsManager />} />
+            {/* Secure administrative routes - unlinked in navigation, protected by Supabase Auth */}
+            <Route path="/admin" element={<AdminPortal />} />
+            <Route path="/admin/events" element={<AdminPortal />} />
+            <Route path="/portal" element={<AdminPortal />} />
+            <Route path="/portal/events-manager" element={<AdminPortal />} />
           </Routes>
         </Suspense>
       </main>

@@ -496,23 +496,30 @@ export async function fetchUpcomingEventsFromSupabase() {
 
 ---
 
-## 🔐 Phase 5: Hidden Admin Portal & Passcode Security
+## 🔐 Phase 5: Secure Admin Portal & Server-Side Supabase Authentication
 
-To allow UFA administrators to add, edit, and toggle upcoming events **without a developer** and without exposing management tools to visitors:
+To allow UFA administrators to manage upcoming events, upload images, update merchandise, and edit officials without exposing tools to visitors:
 
 ### 1. Hidden Route & Absence of Visitor Navigation
-- **Routes**: `/admin/events` and `/portal/events-manager`
+- **Routes**: `/admin`, `/admin/events`, `/portal`, and `/portal/events-manager`
 - **Zero Public Links**: The navbar, footer, and visitor pages do not contain any links or clues to the admin portal. Only UFA team members who know the direct URL can open it.
+- **Search Engine Blocking**: `public/robots.txt` disallows all crawlers from accessing `/admin` and `/portal`, and the admin page dynamically mounts `<meta name="robots" content="noindex, nofollow" />`.
 
-### 2. Client-Side Cryptographic Passcode Protection
-- **Pre-configured Passcode**: `ufa_secure_admin_2026`
-- **Web Crypto SHA-256**: The passcode is checked client-side using `crypto.subtle.digest("SHA-256")`. The plaintext passcode is never stored in plain text.
-- **Brute Force Protection**: 5 consecutive incorrect attempts trigger a **2-minute lockout** timer.
-- **Session Expiry**: Sessions are stored in `sessionStorage` and automatically invalidate after **4 hours** of inactivity or when clicking **Log Out**.
-- **Custom Passcode (Optional)**: To customize the admin passcode without changing code, generate a SHA-256 hash of your chosen passcode and set `VITE_ADMIN_HASH` in `.env`:
-  ```env
-  VITE_ADMIN_HASH=your_sha256_hash_here
-  ```
+### 2. Server-Side Supabase Authentication (Replacing Insecure Client-Side Checks)
+- **Supabase GoTrue Auth**: Authentication is performed directly against Supabase (`supabase.auth.signInWithPassword({ email, password })`).
+- **No Client Passcode Hashing**: Insecure client-side SHA256 passcode checks have been completely removed.
+- **Cryptographic JWT Sessions**: Sessions are secured with signed JSON Web Tokens (JWT) verified by Supabase and PostgreSQL RLS.
+- **Automatic Token Refresh**: The Supabase client automatically refreshes tokens and handles session termination upon logout.
+- **Creating an Admin User**:
+  1. Open your [Supabase Dashboard](https://supabase.com/dashboard) > **Authentication** > **Users**.
+  2. Click **Add User** > **Create User**.
+  3. Enter the administrator's email (e.g. `admin@uniquefocusassociation.org`) and generate a strong password.
+  4. Use these credentials to sign in to the UFA Admin Portal.
+
+### 3. Media & Storage Bucket (`ufa-media`)
+- Administrators can upload event banners, merchandise photos, and leadership portraits directly from their device.
+- Uploaded files are sent to the `ufa-media` Supabase Storage bucket.
+- Storage policies grant public read access for displaying assets on the site, but require Supabase Auth (`TO authenticated`) for uploading, updating, or deleting files.
 
 ---
 

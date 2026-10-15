@@ -27,6 +27,7 @@ dist-ssr
 *.md
 !README.md
 !SUPABASE_INTEGRATION_GUIDE.md
+changes.md
 
 # Environment variables & secrets
 .env

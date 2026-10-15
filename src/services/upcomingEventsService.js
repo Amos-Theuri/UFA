@@ -52,6 +52,7 @@ export async function fetchUpcomingEventsFromSupabase() {
     if (data && data.length > 0) {
       const mapped = data.map((item) => ({
         ...item,
+        image: item.image_url || item.image || "",
         registrationLink: item.registration_link || item.registrationLink || "",
         isPublished: item.is_published !== false
       }));
@@ -59,7 +60,7 @@ export async function fetchUpcomingEventsFromSupabase() {
       return mapped;
     }
   } catch (err) {
-    console.warn("Could not fetch remote events, using local cache:", err);
+    console.warn("Could not fetch remote events, using local cache:", err.message);
   }
   return getUpcomingEvents();
 }
@@ -68,7 +69,8 @@ export async function addUpcomingEvent(eventData) {
   const current = getUpcomingEvents();
   const newEvent = {
     ...eventData,
-    id: `event-${Date.now()}-${Math.random().toString(36).substr(2, 6)}`,
+    id: eventData.id || `event-${Date.now()}-${Math.random().toString(36).substr(2, 6)}`,
+    image: eventData.image || eventData.imageUrl || "",
     createdAt: new Date().toISOString(),
     isPublished: eventData.isPublished !== false
   };
@@ -91,11 +93,12 @@ export async function addUpcomingEvent(eventData) {
           registration_link: newEvent.registrationLink || "",
           badge: newEvent.badge || "",
           description: newEvent.description || "",
+          image_url: newEvent.image || "",
           is_published: newEvent.isPublished
         }
       ]);
     } catch (err) {
-      console.warn("Could not sync added event to Supabase:", err);
+      console.warn("Could not sync added event to Supabase:", err.message);
     }
   }
 
@@ -104,7 +107,9 @@ export async function addUpcomingEvent(eventData) {
 
 export async function updateUpcomingEvent(id, updatedFields) {
   const current = getUpcomingEvents();
-  const updated = current.map(item => (item.id === id ? { ...item, ...updatedFields } : item));
+  const updated = current.map((item) =>
+    item.id === id ? { ...item, ...updatedFields } : item
+  );
   saveUpcomingEvents(updated);
 
   if (isSupabaseConfigured && supabase) {
@@ -121,25 +126,26 @@ export async function updateUpcomingEvent(id, updatedFields) {
       if (updatedFields.registrationLink !== undefined) payload.registration_link = updatedFields.registrationLink;
       if (updatedFields.badge !== undefined) payload.badge = updatedFields.badge;
       if (updatedFields.description !== undefined) payload.description = updatedFields.description;
+      if (updatedFields.image !== undefined) payload.image_url = updatedFields.image;
       if (updatedFields.isPublished !== undefined) payload.is_published = updatedFields.isPublished;
 
       await supabase.from("upcoming_events").update(payload).eq("id", id);
     } catch (err) {
-      console.warn("Could not sync updated event to Supabase:", err);
+      console.warn("Could not sync updated event to Supabase:", err.message);
     }
   }
 }
 
 export async function deleteUpcomingEvent(id) {
   const current = getUpcomingEvents();
-  const updated = current.filter(item => item.id !== id);
+  const updated = current.filter((item) => item.id !== id);
   saveUpcomingEvents(updated);
 
   if (isSupabaseConfigured && supabase) {
     try {
       await supabase.from("upcoming_events").delete().eq("id", id);
     } catch (err) {
-      console.warn("Could not sync deleted event to Supabase:", err);
+      console.warn("Could not sync deleted event to Supabase:", err.message);
     }
   }
 }
@@ -163,4 +169,3 @@ export function subscribeToUpcomingEvents(callback) {
     window.removeEventListener("storage", handler);
   };
 }
-
