@@ -54,13 +54,16 @@ export async function fetchUpcomingEventsFromSupabase() {
         ...item,
         image: item.image_url || item.image || "",
         registrationLink: item.registration_link || item.registrationLink || "",
-        isPublished: item.is_published !== false
+        isPublished: item.is_published !== false,
       }));
       saveUpcomingEvents(mapped);
       return mapped;
     }
   } catch (err) {
-    console.warn("Could not fetch remote events, using local cache:", err.message);
+    console.warn(
+      "Could not fetch remote events, using local cache:",
+      err.message,
+    );
   }
   return getUpcomingEvents();
 }
@@ -69,10 +72,12 @@ export async function addUpcomingEvent(eventData) {
   const current = getUpcomingEvents();
   const newEvent = {
     ...eventData,
-    id: eventData.id || `event-${Date.now()}-${Math.random().toString(36).substr(2, 6)}`,
+    id:
+      eventData.id ||
+      `event-${Date.now()}-${Math.random().toString(36).substr(2, 6)}`,
     image: eventData.image || eventData.imageUrl || "",
     createdAt: new Date().toISOString(),
-    isPublished: eventData.isPublished !== false
+    isPublished: eventData.isPublished !== false,
   };
   const updated = [newEvent, ...current];
   saveUpcomingEvents(updated);
@@ -94,8 +99,8 @@ export async function addUpcomingEvent(eventData) {
           badge: newEvent.badge || "",
           description: newEvent.description || "",
           image_url: newEvent.image || "",
-          is_published: newEvent.isPublished
-        }
+          is_published: newEvent.isPublished,
+        },
       ]);
     } catch (err) {
       console.warn("Could not sync added event to Supabase:", err.message);
@@ -108,26 +113,37 @@ export async function addUpcomingEvent(eventData) {
 export async function updateUpcomingEvent(id, updatedFields) {
   const current = getUpcomingEvents();
   const updated = current.map((item) =>
-    item.id === id ? { ...item, ...updatedFields } : item
+    item.id === id ? { ...item, ...updatedFields } : item,
   );
   saveUpcomingEvents(updated);
 
   if (isSupabaseConfigured && supabase) {
     try {
       const payload = {};
-      if (updatedFields.title !== undefined) payload.title = updatedFields.title;
-      if (updatedFields.subtitle !== undefined) payload.subtitle = updatedFields.subtitle;
-      if (updatedFields.category !== undefined) payload.category = updatedFields.category;
+      if (updatedFields.title !== undefined)
+        payload.title = updatedFields.title;
+      if (updatedFields.subtitle !== undefined)
+        payload.subtitle = updatedFields.subtitle;
+      if (updatedFields.category !== undefined)
+        payload.category = updatedFields.category;
       if (updatedFields.date !== undefined) payload.date = updatedFields.date;
       if (updatedFields.time !== undefined) payload.time = updatedFields.time;
-      if (updatedFields.location !== undefined) payload.location = updatedFields.location;
-      if (updatedFields.platform !== undefined) payload.platform = updatedFields.platform;
-      if (updatedFields.speakers !== undefined) payload.speakers = updatedFields.speakers;
-      if (updatedFields.registrationLink !== undefined) payload.registration_link = updatedFields.registrationLink;
-      if (updatedFields.badge !== undefined) payload.badge = updatedFields.badge;
-      if (updatedFields.description !== undefined) payload.description = updatedFields.description;
-      if (updatedFields.image !== undefined) payload.image_url = updatedFields.image;
-      if (updatedFields.isPublished !== undefined) payload.is_published = updatedFields.isPublished;
+      if (updatedFields.location !== undefined)
+        payload.location = updatedFields.location;
+      if (updatedFields.platform !== undefined)
+        payload.platform = updatedFields.platform;
+      if (updatedFields.speakers !== undefined)
+        payload.speakers = updatedFields.speakers;
+      if (updatedFields.registrationLink !== undefined)
+        payload.registration_link = updatedFields.registrationLink;
+      if (updatedFields.badge !== undefined)
+        payload.badge = updatedFields.badge;
+      if (updatedFields.description !== undefined)
+        payload.description = updatedFields.description;
+      if (updatedFields.image !== undefined)
+        payload.image_url = updatedFields.image;
+      if (updatedFields.isPublished !== undefined)
+        payload.is_published = updatedFields.isPublished;
 
       await supabase.from("upcoming_events").update(payload).eq("id", id);
     } catch (err) {
@@ -169,3 +185,4 @@ export function subscribeToUpcomingEvents(callback) {
     window.removeEventListener("storage", handler);
   };
 }
+
