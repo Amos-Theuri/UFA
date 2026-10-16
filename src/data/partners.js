@@ -1,5 +1,5 @@
-// src/data/partners.js
 import partnerImage from "../assets/partner.jpeg";
+import gmPartnerImage from "../assets/gm_partner.jpg";
 
 export const strategicPartners = [
   {
@@ -23,6 +23,7 @@ export const strategicPartners = [
     name: "GM Companies (Muroki Grace Companies)",
     role: "Mindset & Executive Coaching Partner",
     description: "Collaborating on transformational mindset coaching, career talks, and empowering young professionals.",
+    image: gmPartnerImage,
     tag: "Mindset & Coaching"
   },
   {
