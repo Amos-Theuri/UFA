@@ -229,6 +229,10 @@ function JoinModalDialog({ onClose }) {
         localStorage.setItem("ufa_join_applications", JSON.stringify(stored));
       }
 
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(new Event("ufa_applications_updated"));
+      }
+
       setIsSuccess(true);
     } catch (err) {
       console.error("Membership application error:", err);

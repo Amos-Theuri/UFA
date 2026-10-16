@@ -18,7 +18,13 @@ import {
   Upload,
   Image as ImageIcon,
   RotateCcw,
-  KeyRound
+  KeyRound,
+  ClipboardList,
+  Phone,
+  Mail,
+  Search,
+  Download,
+  MessageSquare
 } from "lucide-react";
 import {
   adminLogin,
@@ -55,6 +61,13 @@ import {
   subscribeToOfficials,
   fetchOfficialsFromSupabase
 } from "../services/officialsService";
+import {
+  getMemberApplications,
+  fetchMemberApplicationsFromSupabase,
+  updateApplicationStatus,
+  deleteMemberApplication,
+  subscribeToApplications
+} from "../services/memberApplicationsService";
 import { uploadImage } from "../services/storageService";
 import { isSupabaseConfigured } from "../lib/supabaseClient";
 import { resolveMerchImage, resolveOfficialImage } from "../lib/assetResolvers";
@@ -111,6 +124,13 @@ export default function AdminPortal() {
   const [events, setEvents] = useState(() => getUpcomingEvents());
   const [merchandise, setMerchandise] = useState(() => getMerchandise());
   const [officials, setOfficials] = useState(() => getOfficials());
+  const [applications, setApplications] = useState(() => getMemberApplications());
+
+  // Applications filter & notes states
+  const [appStatusFilter, setAppStatusFilter] = useState("all");
+  const [appSearchQuery, setAppSearchQuery] = useState("");
+  const [editingNotesId, setEditingNotesId] = useState(null);
+  const [notesDraft, setNotesDraft] = useState("");
 
   // Form states & editing tracking
   const [eventForm, setEventForm] = useState(initialEventForm);
@@ -167,22 +187,25 @@ export default function AdminPortal() {
     return unsubscribe;
   }, []);
 
-  // 3. Sync events, merchandise, and officials when logged in
+  // 3. Sync events, merchandise, officials, and member applications when logged in
   useEffect(() => {
     if (!currentUser) return;
 
     fetchUpcomingEventsFromSupabase().then((data) => data && setEvents(data));
     fetchMerchandiseFromSupabase().then((data) => data && setMerchandise(data));
     fetchOfficialsFromSupabase().then((data) => data && setOfficials(data));
+    fetchMemberApplicationsFromSupabase().then((data) => data && setApplications(data));
 
     const unsubEvents = subscribeToUpcomingEvents((data) => setEvents(data));
     const unsubMerch = subscribeToMerchandise((data) => setMerchandise(data));
     const unsubOfficials = subscribeToOfficials((data) => setOfficials(data));
+    const unsubApps = subscribeToApplications((data) => setApplications(data));
 
     return () => {
       unsubEvents();
       unsubMerch();
       unsubOfficials();
+      unsubApps();
     };
   }, [currentUser]);
 
@@ -433,6 +456,74 @@ export default function AdminPortal() {
     }
   };
 
+  // ===================== MEMBER APPLICATIONS ACTIONS =====================
+  const handleApplicationStatusChange = async (id, newStatus) => {
+    try {
+      await updateApplicationStatus(id, newStatus);
+      setFeedback({ type: "success", text: `Application status updated to "${newStatus}".` });
+    } catch (err) {
+      setFeedback({ type: "error", text: err.message || "Failed to update application status." });
+    }
+  };
+
+  const handleStartEditNotes = (app) => {
+    setEditingNotesId(app.id);
+    setNotesDraft(app.notes || "");
+  };
+
+  const handleSaveAppNotes = async (id) => {
+    try {
+      await updateApplicationStatus(id, undefined, notesDraft.trim());
+      setEditingNotesId(null);
+      setNotesDraft("");
+      setFeedback({ type: "success", text: "Application notes saved successfully." });
+    } catch (err) {
+      setFeedback({ type: "error", text: err.message || "Failed to save application notes." });
+    }
+  };
+
+  const handleDeleteApplication = async (app) => {
+    if (window.confirm(`Delete membership application from "${app.name}"? This cannot be undone.`)) {
+      await deleteMemberApplication(app.id);
+      if (editingNotesId === app.id) {
+        setEditingNotesId(null);
+        setNotesDraft("");
+      }
+      setFeedback({ type: "success", text: `Application from "${app.name}" was deleted.` });
+    }
+  };
+
+  const handleExportCSV = () => {
+    if (applications.length === 0) {
+      setFeedback({ type: "warning", text: "No applications available to export." });
+      return;
+    }
+    const headers = ["ID", "Name", "Email", "Phone", "County", "Area of Interest", "Status", "Notes", "Submitted At"];
+    const rows = applications.map((app) => [
+      app.id,
+      `"${(app.name || "").replace(/"/g, '""')}"`,
+      `"${(app.email || "").replace(/"/g, '""')}"`,
+      `"${(app.contact || "").replace(/"/g, '""')}"`,
+      `"${(app.county || "").replace(/"/g, '""')}"`,
+      `"${(app.areaOfInterest || "").replace(/"/g, '""')}"`,
+      app.status || "pending",
+      `"${(app.notes || "").replace(/"/g, '""')}"`,
+      app.submittedAt || ""
+    ]);
+
+    const csvContent = [headers.join(","), ...rows.map((r) => r.join(","))].join("\n");
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", `ufa_membership_applications_${new Date().toISOString().slice(0, 10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    setFeedback({ type: "success", text: "Membership applications exported to CSV successfully." });
+  };
+
   // Loading state
   if (authLoading) {
     return (
@@ -662,6 +753,16 @@ export default function AdminPortal() {
             <Users size={18} />
             <span>Officials & Leadership</span>
             <span className={styles.tabBadge}>{officials.length}</span>
+          </button>
+
+          <button
+            type="button"
+            className={`${styles.tabBtn} ${activeTab === "applications" ? styles.tabActive : ""}`}
+            onClick={() => setActiveTab("applications")}
+          >
+            <ClipboardList size={18} />
+            <span>Member Applications</span>
+            <span className={styles.tabBadge}>{applications.length}</span>
           </button>
 
           <button
@@ -1574,7 +1675,335 @@ export default function AdminPortal() {
           </>
         )}
 
-        {/* ===================== TAB 4: SECURITY & ENDPOINTS ===================== */}
+        {/* ===================== TAB 4: MEMBER APPLICATIONS ===================== */}
+        {activeTab === "applications" && (() => {
+          const pendingCount = applications.filter((a) => a.status === "pending").length;
+          const contactedCount = applications.filter((a) => a.status === "contacted").length;
+          const approvedCount = applications.filter((a) => a.status === "approved").length;
+          const archivedCount = applications.filter((a) => a.status === "archived").length;
+
+          const filteredApplications = applications.filter((app) => {
+            const matchesStatus = appStatusFilter === "all" || app.status === appStatusFilter;
+            const q = appSearchQuery.trim().toLowerCase();
+            const matchesSearch =
+              !q ||
+              (app.name && app.name.toLowerCase().includes(q)) ||
+              (app.email && app.email.toLowerCase().includes(q)) ||
+              (app.contact && app.contact.toLowerCase().includes(q)) ||
+              (app.county && app.county.toLowerCase().includes(q)) ||
+              (app.areaOfInterest && app.areaOfInterest.toLowerCase().includes(q)) ||
+              (app.notes && app.notes.toLowerCase().includes(q));
+            return matchesStatus && matchesSearch;
+          });
+
+          return (
+            <>
+              {/* Summary Statistics Bar */}
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "1rem", marginBottom: "1.75rem" }}>
+                <div style={{ background: "#ffffff", padding: "1.25rem", borderRadius: "14px", border: "1px solid #e2e8f0" }}>
+                  <span style={{ fontSize: "0.8rem", color: "#64748b", fontWeight: 700, textTransform: "uppercase" }}>Total Applications</span>
+                  <div style={{ fontSize: "1.8rem", fontWeight: 800, color: "#091e3a", marginTop: "0.25rem" }}>{applications.length}</div>
+                </div>
+                <div style={{ background: "#ffffff", padding: "1.25rem", borderRadius: "14px", border: "1px solid #e2e8f0" }}>
+                  <span style={{ fontSize: "0.8rem", color: "#b45309", fontWeight: 700, textTransform: "uppercase" }}>Pending Review</span>
+                  <div style={{ fontSize: "1.8rem", fontWeight: 800, color: "#d97706", marginTop: "0.25rem" }}>{pendingCount}</div>
+                </div>
+                <div style={{ background: "#ffffff", padding: "1.25rem", borderRadius: "14px", border: "1px solid #e2e8f0" }}>
+                  <span style={{ fontSize: "0.8rem", color: "#0369a1", fontWeight: 700, textTransform: "uppercase" }}>Contacted</span>
+                  <div style={{ fontSize: "1.8rem", fontWeight: 800, color: "#0284c7", marginTop: "0.25rem" }}>{contactedCount}</div>
+                </div>
+                <div style={{ background: "#ffffff", padding: "1.25rem", borderRadius: "14px", border: "1px solid #e2e8f0" }}>
+                  <span style={{ fontSize: "0.8rem", color: "#15803d", fontWeight: 700, textTransform: "uppercase" }}>Approved Members</span>
+                  <div style={{ fontSize: "1.8rem", fontWeight: 800, color: "#16a34a", marginTop: "0.25rem" }}>{approvedCount}</div>
+                </div>
+              </div>
+
+              {/* Main Content Card */}
+              <div className={styles.contentCard}>
+                <div className={styles.cardHeader}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
+                    <ClipboardList size={20} color="#00e5c1" />
+                    <h2 className={styles.cardTitle}>Membership Submissions ({filteredApplications.length})</h2>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleExportCSV}
+                    className={`${styles.actionBtn} ${styles.secondaryBtn}`}
+                    style={{ fontSize: "0.825rem", padding: "0.4rem 0.9rem" }}
+                    title="Export applications to CSV"
+                  >
+                    <Download size={15} /> Export CSV
+                  </button>
+                </div>
+
+                {/* Filter & Search Bar */}
+                <div className={styles.filterRow}>
+                  <div className={styles.filterPills}>
+                    <button
+                      type="button"
+                      className={`${styles.filterPill} ${appStatusFilter === "all" ? styles.filterPillActive : ""}`}
+                      onClick={() => setAppStatusFilter("all")}
+                    >
+                      All ({applications.length})
+                    </button>
+                    <button
+                      type="button"
+                      className={`${styles.filterPill} ${appStatusFilter === "pending" ? styles.filterPillActive : ""}`}
+                      onClick={() => setAppStatusFilter("pending")}
+                    >
+                      Pending ({pendingCount})
+                    </button>
+                    <button
+                      type="button"
+                      className={`${styles.filterPill} ${appStatusFilter === "contacted" ? styles.filterPillActive : ""}`}
+                      onClick={() => setAppStatusFilter("contacted")}
+                    >
+                      Contacted ({contactedCount})
+                    </button>
+                    <button
+                      type="button"
+                      className={`${styles.filterPill} ${appStatusFilter === "approved" ? styles.filterPillActive : ""}`}
+                      onClick={() => setAppStatusFilter("approved")}
+                    >
+                      Approved ({approvedCount})
+                    </button>
+                    <button
+                      type="button"
+                      className={`${styles.filterPill} ${appStatusFilter === "archived" ? styles.filterPillActive : ""}`}
+                      onClick={() => setAppStatusFilter("archived")}
+                    >
+                      Archived ({archivedCount})
+                    </button>
+                  </div>
+
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", minWidth: "240px" }}>
+                    <Search size={16} color="#94a3b8" />
+                    <input
+                      type="text"
+                      className={styles.input}
+                      style={{ padding: "0.45rem 0.75rem", fontSize: "0.85rem" }}
+                      placeholder="Search name, phone, county..."
+                      value={appSearchQuery}
+                      onChange={(e) => setAppSearchQuery(e.target.value)}
+                    />
+                  </div>
+                </div>
+
+                {/* Applications Table */}
+                {filteredApplications.length === 0 ? (
+                  <div style={{ textAlign: "center", color: "#64748b", padding: "3rem 1rem" }}>
+                    <ClipboardList size={36} color="#cbd5e1" style={{ margin: "0 auto 0.75rem auto" }} />
+                    <p style={{ fontWeight: 600, margin: "0 0 0.25rem 0" }}>No applications found</p>
+                    <span style={{ fontSize: "0.85rem" }}>
+                      {appSearchQuery || appStatusFilter !== "all"
+                        ? "Try clearing your search query or status filter."
+                        : "Submissions from the Join UFA modal will appear here in real time."}
+                    </span>
+                  </div>
+                ) : (
+                  <table className={styles.dataTable}>
+                    <thead>
+                      <tr>
+                        <th>Applicant</th>
+                        <th>Contact Channels</th>
+                        <th>County</th>
+                        <th>Area of Interest</th>
+                        <th>Status</th>
+                        <th>Staff Remarks</th>
+                        <th style={{ textAlign: "right" }}>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {filteredApplications.map((app) => {
+                        const cleanPhone = (app.contact || "").replace(/\D/g, "");
+                        const waNumber = cleanPhone.startsWith("0") ? `254${cleanPhone.slice(1)}` : cleanPhone;
+                        const isEditingNotes = editingNotesId === app.id;
+
+                        const dateFormatted = app.submittedAt
+                          ? new Date(app.submittedAt).toLocaleDateString("en-KE", {
+                              month: "short",
+                              day: "numeric",
+                              year: "numeric"
+                            })
+                          : "Recently";
+
+                        return (
+                          <tr key={app.id}>
+                            <td>
+                              <span className={styles.tableTitle}>{app.name}</span>
+                              <span className={styles.tableSubtitle}>Applied: {dateFormatted}</span>
+                            </td>
+                            <td>
+                              <div style={{ display: "flex", flexDirection: "column", gap: "0.35rem" }}>
+                                {app.contact && (
+                                  <div className={styles.contactGroup}>
+                                    <a
+                                      href={`tel:${app.contact}`}
+                                      className={styles.contactLink}
+                                      title="Call phone number"
+                                    >
+                                      <Phone size={13} />
+                                      <span>{app.contact}</span>
+                                    </a>
+                                    <a
+                                      href={`https://wa.me/${waNumber}`}
+                                      target="_blank"
+                                      rel="noreferrer"
+                                      style={{
+                                        color: "#16a34a",
+                                        display: "inline-flex",
+                                        alignItems: "center",
+                                        marginLeft: "0.35rem"
+                                      }}
+                                      title="Open WhatsApp chat"
+                                    >
+                                      <MessageSquare size={14} />
+                                    </a>
+                                  </div>
+                                )}
+                                {app.email && (
+                                  <a
+                                    href={`mailto:${app.email}`}
+                                    className={styles.contactLink}
+                                    style={{ color: "#475569", fontSize: "0.825rem" }}
+                                    title="Send email"
+                                  >
+                                    <Mail size={13} />
+                                    <span>{app.email}</span>
+                                  </a>
+                                )}
+                              </div>
+                            </td>
+                            <td>
+                              <span style={{ fontWeight: 600, color: "#0c1e30" }}>{app.county || "Kenya"}</span>
+                            </td>
+                            <td style={{ maxWidth: "220px" }}>
+                              <span
+                                style={{
+                                  fontSize: "0.8rem",
+                                  background: "#f1f5f9",
+                                  padding: "0.2rem 0.55rem",
+                                  borderRadius: "6px",
+                                  color: "#334155",
+                                  fontWeight: 600,
+                                  display: "inline-block"
+                                }}
+                              >
+                                {app.areaOfInterest || "General Membership"}
+                              </span>
+                            </td>
+                            <td>
+                              <select
+                                className={styles.select}
+                                style={{
+                                  padding: "0.3rem 0.6rem",
+                                  fontSize: "0.8rem",
+                                  fontWeight: 700,
+                                  width: "auto",
+                                  borderRadius: "9999px",
+                                  borderColor:
+                                    app.status === "approved"
+                                      ? "#bbf7d0"
+                                      : app.status === "contacted"
+                                      ? "#bae6fd"
+                                      : app.status === "archived"
+                                      ? "#e2e8f0"
+                                      : "#fde68a",
+                                  background:
+                                    app.status === "approved"
+                                      ? "#dcfce7"
+                                      : app.status === "contacted"
+                                      ? "#e0f2fe"
+                                      : app.status === "archived"
+                                      ? "#f8fafc"
+                                      : "#fef3c7",
+                                  color:
+                                    app.status === "approved"
+                                      ? "#166534"
+                                      : app.status === "contacted"
+                                      ? "#0369a1"
+                                      : app.status === "archived"
+                                      ? "#64748b"
+                                      : "#92400e"
+                                }}
+                                value={app.status || "pending"}
+                                onChange={(e) => handleApplicationStatusChange(app.id, e.target.value)}
+                              >
+                                <option value="pending">Pending</option>
+                                <option value="contacted">Contacted</option>
+                                <option value="approved">Approved</option>
+                                <option value="archived">Archived</option>
+                              </select>
+                            </td>
+                            <td style={{ maxWidth: "260px" }}>
+                              {isEditingNotes ? (
+                                <div style={{ display: "flex", flexDirection: "column", gap: "0.35rem" }}>
+                                  <input
+                                    type="text"
+                                    className={styles.input}
+                                    style={{ padding: "0.3rem 0.5rem", fontSize: "0.8rem" }}
+                                    value={notesDraft}
+                                    onChange={(e) => setNotesDraft(e.target.value)}
+                                    placeholder="Add notes..."
+                                    autoFocus
+                                  />
+                                  <div style={{ display: "flex", gap: "0.3rem" }}>
+                                    <button
+                                      type="button"
+                                      className={`${styles.actionBtn} ${styles.primaryBtn}`}
+                                      style={{ padding: "0.2rem 0.6rem", fontSize: "0.75rem" }}
+                                      onClick={() => handleSaveAppNotes(app.id)}
+                                    >
+                                      Save
+                                    </button>
+                                    <button
+                                      type="button"
+                                      className={`${styles.actionBtn} ${styles.secondaryBtn}`}
+                                      style={{ padding: "0.2rem 0.6rem", fontSize: "0.75rem" }}
+                                      onClick={() => setEditingNotesId(null)}
+                                    >
+                                      Cancel
+                                    </button>
+                                  </div>
+                                </div>
+                              ) : (
+                                <div
+                                  style={{
+                                    fontSize: "0.825rem",
+                                    color: app.notes ? "#475569" : "#94a3b8",
+                                    cursor: "pointer"
+                                  }}
+                                  onClick={() => handleStartEditNotes(app)}
+                                  title="Click to edit notes"
+                                >
+                                  {app.notes || <span style={{ textDecoration: "underline" }}>+ Add staff note</span>}
+                                </div>
+                              )}
+                            </td>
+                            <td>
+                              <div style={{ display: "flex", gap: "0.4rem", justifyContent: "flex-end" }}>
+                                <button
+                                  type="button"
+                                  className={`${styles.iconBtn} ${styles.iconBtnDanger}`}
+                                  title="Delete Application"
+                                  onClick={() => handleDeleteApplication(app)}
+                                >
+                                  <Trash2 size={16} />
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                )}
+              </div>
+            </>
+          );
+        })()}
+
+        {/* ===================== TAB 5: SECURITY & ENDPOINTS ===================== */}
         {activeTab === "security" && (
           <div className={styles.contentCard}>
             <div className={styles.cardHeader}>
