@@ -1,5 +1,6 @@
 import partnerImage from "../assets/partner.jpeg";
 import gmPartnerImage from "../assets/gm_partner.jpg";
+import connectPartnerImage from "../assets/connect_partner.jpg";
 
 export const strategicPartners = [
   {
@@ -31,6 +32,7 @@ export const strategicPartners = [
     name: "CONNECT Community Network",
     role: "Engagement & Community Mobilization Partner",
     description: "Fostering grassroots community togetherness, civic participation, and cross-county youth collaboration.",
+    image: connectPartnerImage,
     tag: "Community Togetherness"
   }
 ];
