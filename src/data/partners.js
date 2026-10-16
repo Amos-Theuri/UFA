@@ -1,6 +1,7 @@
 import partnerImage from "../assets/partner.jpeg";
 import gmPartnerImage from "../assets/gm_partner.jpg";
 import connectPartnerImage from "../assets/connect_partner.jpg";
+import psfPartnerImage from "../assets/psf_partner.png";
 
 export const strategicPartners = [
   {
@@ -17,6 +18,7 @@ export const strategicPartners = [
     name: "Peter Salasya Foundation (PSF)",
     role: "Youth Empowerment & Mental Health Partner",
     description: "Partnering on high-impact virtual youth wellness summits, mental healthcare awareness, and community outreach.",
+    image: psfPartnerImage,
     tag: "Youth Wellness & Mental Health"
   },
   {
